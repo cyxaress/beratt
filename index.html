@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasta Prensesin Aşık Prensi</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body{
+  margin:0;
+  height:100vh;
+  overflow:hidden;
+  background:radial-gradient(circle at center,#1a0026,#000);
+  font-family:'Cinzel',serif;
+}
+
+/* Fog */
+.fog{
+  position:fixed;
+  width:200%;
+  height:200%;
+  background:radial-gradient(rgba(255,255,255,0.04),transparent 70%);
+  animation:fogMove 40s linear infinite;
+  pointer-events:none;
+}
+@keyframes fogMove{from{transform:translate(-20%,-20%);}to{transform:translate(0,0);}}
+
+/* Mouse light */
+.light{
+  position:fixed;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(circle,rgba(255,0,255,0.25),transparent 70%);
+  transform:translate(-50%,-50%);
+}
+
+#startScreen{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  height:100vh;
+  text-align:center;
+  color:white;
+}
+
+h1{
+  font-family:'Great Vibes',cursive;
+  font-size:48px;
+  margin-bottom:20px;
+}
+
+.book{
+  width:300px;
+  height:400px;
+  perspective:1200px;
+}
+.cover{
+  width:100%;
+  height:100%;
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform 2s;
+}
+.cover.open{
+  transform:rotateY(-160deg);
+}
+.front{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:url('kapak.png') center/cover no-repeat;
+  border-radius:10px;
+  box-shadow:0 0 40px purple;
+  backface-visibility:hidden;
+}
+
+button{
+  margin-top:20px;
+  padding:12px 30px;
+  font-size:18px;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(45deg,#8000ff,#ff00ff);
+  color:white;
+  cursor:pointer;
+}
+
+#bookContainer{
+  display:none;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.page{
+  width:700px;
+  height:500px;
+  background:#f5e6c8;
+  border:8px solid transparent;
+  border-image:linear-gradient(45deg,gold,#c9a86a,gold) 1;
+  padding:20px;
+  box-sizing:border-box;
+  color:#2b1a00;
+  display:none;
+  position:relative;
+}
+.page.active{display:block;}
+
+.page img{
+  width:100%;
+  aspect-ratio:4/3;
+  object-fit:cover;
+  border:3px solid #c9a86a;
+}
+
+.text{
+  margin-top:15px;
+  font-family:'Great Vibes',cursive;
+  font-weight:bold;
+  font-style:italic;
+  font-size:24px;
+}
+
+.nextBtn{
+  position:absolute;
+  bottom:15px;
+  right:20px;
+  padding:8px 18px;
+  background:purple;
+  color:white;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+#finalPopup{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.85);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  font-family:'Great Vibes',cursive;
+  font-size:40px;
+  text-align:center;
+}
+</style>
+</head>
+<body>
+<div class="fog"></div>
+<div class="light" id="light"></div>
+
+<div id="startScreen">
+  <h1>Hasta Prensesin Aşık Prensi</h1>
+  <div class="book">
+    <div class="cover" id="cover">
+      <div class="front"></div>
+    </div>
+  </div>
+  <button onclick="startReading()">Okumaya Başla</button>
+</div>
+
+<div id="bookContainer">
+
+  <div class="page active">
+    <img src="resim1.png"><div class="text">Masalın ilk satırı burada başlar...</div>
+    <button class="nextBtn" onclick="nextPage()">Sıradaki Sayfa →</button>
+  </div>
+
+  <div class="page">
+    <img src="resim2.png"><div class="text">Aşk uzak diyarlarda yankılandı...</div>
+    <button class="nextBtn" onclick="nextPage()">Sıradaki Sayfa →</button>
+  </div>
+
+  <div class="page">
+    <img src="resim3.png"><div class="text">Kalpler aynı kaderde buluştu...</div>
+    <button class="nextBtn" onclick="nextPage()">Sıradaki Sayfa →</button>
+  </div>
+
+  <div class="page">
+    <img src="resim4.png"><div class="text">Her sayfa yeni bir umut taşıdı...</div>
+    <button class="nextBtn" onclick="nextPage()">Sıradaki Sayfa →</button>
+  </div>
+
+  <div class="page">
+    <img src="resim5.png"><div class="text">Masal sonsuza dek sürdü...</div>
+    <button class="nextBtn" onclick="finishStory()">Son →</button>
+  </div>
+
+</div>
+
+<div id="finalPopup">❤️ Bu masalın en güzel kısmı sensin ❤️</div>
+
+<audio id="bgMusic" src="evşann.mp3" loop></audio>
+<audio id="paperSound" src="paper.mp3"></audio>
+
+<script>
+let current=0;
+const pages=document.querySelectorAll('.page');
+
+function startReading(){
+ document.getElementById('cover').classList.add('open');
+ setTimeout(()=>{
+   document.getElementById('startScreen').style.display='none';
+   document.getElementById('bookContainer').style.display='flex';
+   document.getElementById('bgMusic').play();
+ },1800);
+}
+
+function nextPage(){
+ document.getElementById('paperSound').currentTime=0;
+ document.getElementById('paperSound').play();
+ pages[current].classList.remove('active');
+ current++;
+ pages[current].classList.add('active');
+}
+
+function finishStory(){
+ document.getElementById('paperSound').play();
+ document.getElementById('finalPopup').style.display='flex';
+}
+
+// mouse light
+const light=document.getElementById('light');
+document.addEventListener('mousemove',e=>{
+ light.style.left=e.clientX+'px';
+ light.style.top=e.clientY+'px';
+});
+</script>
+</body>
+</html>
