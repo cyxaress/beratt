@@ -14,25 +14,19 @@
   --purple:#8000ff;
   --magenta:#ff00ff;
   --paper:#f5e6c8;
-  --gold1:gold;
-  --gold2:#c9a86a;
   --frame:#b8965a;
 }
 
-/* ✅ MOBİL: scroll serbest, desktop: aynı hissiyat */
-html, body{
-  height:100%;
-}
+html, body{height:100%;}
 
 body{
   margin:0;
   background:radial-gradient(circle at center,var(--bg1),var(--bg2));
   font-family:'Cinzel',serif;
-  /* desktop hissi */
   overflow:hidden;
 }
 
-/* ✅ MOBİL DÜZELTME: küçük ekranda kaydırma + iOS smooth scroll */
+/* MOBİL: kaydırma serbest */
 @media (max-width: 900px){
   body{
     overflow-y:auto;
@@ -68,7 +62,7 @@ body{
   mix-blend-mode:screen;
 }
 
-/* ✅ GERÇEKÇİ MUM + IŞIK (sayfaya vuran sıcak ışık) */
+/* Gerçekçi mum */
 .candleWrap{
   position:fixed;
   top:14px;
@@ -92,7 +86,6 @@ body{
     0 18px 30px rgba(0,0,0,.45),
     inset 0 0 12px rgba(0,0,0,.12);
 }
-
 .candleBody::before{
   content:"";
   position:absolute;
@@ -102,7 +95,6 @@ body{
   background:rgba(0,0,0,.08);
   filter:blur(.3px);
 }
-
 .wick{
   position:absolute;
   bottom:88px;
@@ -113,7 +105,6 @@ body{
   background:linear-gradient(#222,#555);
   opacity:.8;
 }
-
 .flame{
   position:absolute;
   bottom:98px;
@@ -124,22 +115,19 @@ body{
   animation:flameMove 0.14s infinite alternate;
   filter:drop-shadow(0 0 14px rgba(255,190,80,.45));
 }
-
 @keyframes flameMove{
   from{ transform:rotate(-1.5deg) scale(1); opacity:.92; }
   to{ transform:rotate(1.8deg) scale(1.03); opacity:1; }
 }
-
 .flame::before{
   content:"";
   position:absolute;
   inset:0;
-  border-radius:50% 50% 50% 50%;
+  border-radius:50%;
   background:
-    radial-gradient(circle at 55% 35%, rgba(255,255,255,.95) 0 18%, rgba(255,245,170,.85) 19% 35%, rgba(255,170,60,.70) 36% 62%, rgba(255,120,0,.0) 63%);
+    radial-gradient(circle at 55% 35%, rgba(255,255,255,.95) 0 18%, rgba(255,245,170,.85) 19% 35%, rgba(255,170,60,.70) 36% 62%, rgba(255,120,0,0.0) 63%);
   transform:rotate(8deg);
 }
-
 .flame::after{
   content:"";
   position:absolute;
@@ -149,8 +137,6 @@ body{
     radial-gradient(circle at 50% 35%, rgba(255,255,255,.55) 0 22%, rgba(255,200,90,.35) 23% 55%, rgba(255,140,0,0) 56%);
   filter:blur(.4px);
 }
-
-/* Mumun ortam ışığı (sayfanın üst kısmına sıcak ışık düşürür) */
 .candleGlow{
   position:fixed;
   top:-40px;
@@ -163,7 +149,6 @@ body{
   animation:glowPulse 1.2s infinite alternate;
   mix-blend-mode:screen;
 }
-
 @keyframes glowPulse{
   from{ opacity:.55; transform:scale(1); }
   to{ opacity:.85; transform:scale(1.03); }
@@ -201,9 +186,7 @@ h1{
   transform-style:preserve-3d;
   transition:transform 2s;
 }
-.cover.open{
-  transform:rotateY(-160deg);
-}
+.cover.open{ transform:rotateY(-160deg); }
 .front{
   position:absolute;
   width:100%;
@@ -224,7 +207,7 @@ button{
   color:white;
   cursor:pointer;
   box-shadow:0 0 18px rgba(179,0,255,.6);
-  touch-action: manipulation; /* ✅ mobil tıklama hissi */
+  touch-action: manipulation;
 }
 
 #bookContainer{
@@ -237,7 +220,7 @@ button{
   perspective:2000px;
 }
 
-/* ✅ MOBİL: container yüksekliğini sabitleme yerine içerik kadar + padding */
+/* MOBİL: içerik kadar + padding */
 @media (max-width: 900px){
   #startScreen{ height: 100svh; }
   #bookContainer{
@@ -254,32 +237,45 @@ button{
   transform: translateZ(120px);
 }
 
-/* ✅ MOBİL: kitap ekrana sığsın */
+/* MOBİL: kitap ekrana sığsın */
 @media (max-width: 900px){
   .bookStage{
     width:min(92vw, 740px);
-    height: calc(min(92vw, 740px) * 0.73); /* 740x540 oranına yakın */
+    height: calc(min(92vw, 740px) * 0.73);
   }
 }
 
+/* PAGE */
 .page{
   position:absolute;
   inset:0;
   width:100%;
   height:100%;
-  background:var(--paper);
-  border:8px solid transparent;
-  border-image:linear-gradient(45deg,var(--gold1),var(--gold2),var(--gold1)) 1;
+
+  /* ✅ ESKİTME + MORUMSU HAT (altın bar yerine) */
+  background:
+    radial-gradient(circle at 30% 20%, rgba(0,0,0,.06), transparent 55%),
+    radial-gradient(circle at 70% 80%, rgba(0,0,0,.08), transparent 60%),
+    linear-gradient(180deg, #f7ecd2 0%, #f1e1be 55%, #ead3a7 100%);
+
+  border: 2px solid rgba(179,0,255,.55);
+  border-radius: 10px;
+
   padding:22px;
   box-sizing:border-box;
   color:#2b1a00;
+
   opacity:0;
   pointer-events:none;
+
   transform-origin:left center;
   transform:rotateY(92deg);
   transition:transform .85s ease, opacity .4s ease;
   backface-visibility:hidden;
-  box-shadow: inset 0 0 60px rgba(0,0,0,.18);
+
+  box-shadow:
+    inset 0 0 0 2px rgba(0,0,0,.08),
+    inset 0 0 80px rgba(0,0,0,.18);
 }
 
 .page.active{
@@ -294,27 +290,57 @@ button{
   opacity:0;
 }
 
+/* kağıt kenar gölgesi */
+.page::after{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  width:70px;
+  height:100%;
+  background:linear-gradient(to left, rgba(0,0,0,.22), transparent);
+  pointer-events:none;
+  border-top-right-radius:10px;
+  border-bottom-right-radius:10px;
+}
+
+/* ✅ RESİM ÇERÇEVESİ: 4:5, daha küçük */
 .imageFrame{
-  width:100%;
-  height:66%;
+  width: min(62%, 320px);
+  aspect-ratio: 4 / 5;
+  height: auto;
+
+  margin: 0 auto;
   display:flex;
   justify-content:center;
   align-items:center;
+
   background:#e8d7b5;
-  border:12px solid var(--frame);
-  border-radius:8px;
-  box-shadow:inset 0 0 26px rgba(0,0,0,.35),0 14px 30px rgba(0,0,0,.45);
+  border: 10px solid rgba(179,0,255,.35);
+  border-radius: 10px;
+
+  box-shadow:
+    inset 0 0 26px rgba(0,0,0,.30),
+    0 14px 30px rgba(0,0,0,.40);
+
   overflow:hidden;
 }
 
+/* MOBİL: çerçeve biraz genişlesin ama yine 4:5 kalsın */
+@media (max-width: 900px){
+  .imageFrame{ width: min(72vw, 320px); }
+}
+
 .imageFrame img{
-  max-width:92%;
-  max-height:92%;
-  object-fit:contain;
+  max-width: 92%;
+  max-height: 92%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
   display:block;
 }
 
-/* Yazılar net + mor glow (senin istediğin gibi) */
+/* Yazı net + mor glow */
 .text{
   margin-top:12px;
   font-family:'Great Vibes',cursive;
@@ -334,27 +360,36 @@ button{
     0 0 14px rgba(179,0,255,0.28),
     0 0 26px rgba(179,0,255,0.22),
     0 2px 0 rgba(0,0,0,0.12);
+
+  padding-bottom: 6px;
 }
 
-/* ✅ MOBİL: yazı biraz küçülsün taşmasın */
+/* MOBİL: yazı taşmasın */
 @media (max-width: 900px){
   .text{ font-size:24px; }
 }
 
+/* ✅ BUTON: yazıyla iç içe değil, en sola, sığar */
 .nextBtn{
-  position:absolute;
-  bottom:16px;
-  right:18px;
-  padding:9px 18px;
-  background:rgba(128,0,255,.92);
-  color:white;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  box-shadow:0 0 16px rgba(179,0,255,.5);
+  position: static;
+  display: inline-block;
+
+  margin: 10px auto 0 0;   /* sola yasla */
+  padding: 9px 16px;
+
+  background: rgba(128,0,255,.92);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 16px rgba(179,0,255,.5);
+
+  max-width: 100%;
+  white-space: nowrap;
   touch-action: manipulation;
 }
 
+/* Final popup */
 #finalPopup{
   position:fixed;
   top:0;left:0;
@@ -392,7 +427,6 @@ button{
   font-style:italic;
   opacity:.95;
 }
-
 @media (max-width: 900px){
   .popupTitle{ font-size:44px; }
   .popupText{ font-size:28px; }
@@ -404,7 +438,6 @@ button{
   <div class="fog"></div>
   <div class="light" id="light"></div>
 
-  <!-- ✅ Gerçekçi mum -->
   <div class="candleGlow"></div>
   <div class="candleWrap" aria-hidden="true">
     <div class="flame"></div>
@@ -412,7 +445,6 @@ button{
     <div class="candleBody"></div>
   </div>
 
-  <!-- START -->
   <div id="startScreen">
     <h1>Kurtarılmayı Bekleyen Prenses</h1>
 
@@ -425,7 +457,6 @@ button{
     <button onclick="startReading()">Okumaya Başla</button>
   </div>
 
-  <!-- BOOK -->
   <div id="bookContainer">
     <div class="bookStage">
 
@@ -482,11 +513,9 @@ function vibrate(ms=40){
 
 function startReading(){
   document.getElementById('cover').classList.add('open');
-
   setTimeout(() => {
     document.getElementById('startScreen').style.display = 'none';
     document.getElementById('bookContainer').style.display = 'flex';
-
     const m = document.getElementById('bgMusic');
     m.play().catch(()=>{});
   }, 1800);
@@ -500,12 +529,9 @@ function playPaper(){
 
 function nextPage(){
   if (current >= pages.length - 1) return;
-
   playPaper();
   vibrate(35);
-
   pages[current].classList.add('turning');
-
   setTimeout(() => {
     pages[current].classList.remove('active','turning');
     current++;
