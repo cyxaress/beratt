@@ -9,306 +9,526 @@
 
 <style>
 :root{
---bg1:#1a0026;
---bg2:#000000;
---purple:#8000ff;
---magenta:#ff00ff;
---paper:#f5e6c8;
---gold1:gold;
---gold2:#c9a86a;
---frame:#b8965a;
+  --bg1:#1a0026;
+  --bg2:#000000;
+  --purple:#8000ff;
+  --magenta:#ff00ff;
+  --paper:#f5e6c8;
+  --gold1:gold;
+  --gold2:#c9a86a;
+  --frame:#b8965a;
+}
+
+/* ✅ MOBİL: scroll serbest, desktop: aynı hissiyat */
+html, body{
+  height:100%;
 }
 
 body{
-margin:0;
-height:100vh;
-overflow:hidden;
-background:radial-gradient(circle at center,var(--bg1),var(--bg2));
-font-family:'Cinzel',serif;
+  margin:0;
+  background:radial-gradient(circle at center,var(--bg1),var(--bg2));
+  font-family:'Cinzel',serif;
+  /* desktop hissi */
+  overflow:hidden;
+}
+
+/* ✅ MOBİL DÜZELTME: küçük ekranda kaydırma + iOS smooth scroll */
+@media (max-width: 900px){
+  body{
+    overflow-y:auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 /* Fog */
 .fog{
-position:fixed;
-width:200%;
-height:200%;
-background:radial-gradient(rgba(255,255,255,0.04),transparent 70%);
-animation:fogMove 40s linear infinite;
-pointer-events:none;
-z-index:1;
+  position:fixed;
+  width:200%;
+  height:200%;
+  background:radial-gradient(rgba(255,255,255,0.04),transparent 70%);
+  animation:fogMove 40s linear infinite;
+  pointer-events:none;
+  z-index:1;
 }
 @keyframes fogMove{
-from{transform:translate(-20%,-20%)}
-to{transform:translate(0,0)}
+  from{transform:translate(-20%,-20%)}
+  to{transform:translate(0,0)}
 }
 
 /* Mouse light */
 .light{
-position:fixed;
-width:320px;
-height:320px;
-border-radius:50%;
-pointer-events:none;
-background:radial-gradient(circle,rgba(255,0,255,0.25),transparent 70%);
-transform:translate(-50%,-50%);
-z-index:2;
-mix-blend-mode:screen;
+  position:fixed;
+  width:320px;
+  height:320px;
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(circle,rgba(255,0,255,0.25),transparent 70%);
+  transform:translate(-50%,-50%);
+  z-index:2;
+  mix-blend-mode:screen;
+}
+
+/* ✅ GERÇEKÇİ MUM + IŞIK (sayfaya vuran sıcak ışık) */
+.candleWrap{
+  position:fixed;
+  top:14px;
+  right:18px;
+  width:90px;
+  height:140px;
+  z-index:6;
+  pointer-events:none;
+}
+
+.candleBody{
+  position:absolute;
+  bottom:0;
+  right:10px;
+  width:42px;
+  height:92px;
+  border-radius:10px;
+  background:
+    linear-gradient(180deg, #fff 0%, #f1efe8 30%, #e6e0d2 65%, #d6c9a8 100%);
+  box-shadow:
+    0 18px 30px rgba(0,0,0,.45),
+    inset 0 0 12px rgba(0,0,0,.12);
+}
+
+.candleBody::before{
+  content:"";
+  position:absolute;
+  top:10px; left:6px; right:6px;
+  height:10px;
+  border-radius:999px;
+  background:rgba(0,0,0,.08);
+  filter:blur(.3px);
+}
+
+.wick{
+  position:absolute;
+  bottom:88px;
+  right:29px;
+  width:4px;
+  height:14px;
+  border-radius:3px;
+  background:linear-gradient(#222,#555);
+  opacity:.8;
+}
+
+.flame{
+  position:absolute;
+  bottom:98px;
+  right:16px;
+  width:46px;
+  height:64px;
+  transform-origin:50% 90%;
+  animation:flameMove 0.14s infinite alternate;
+  filter:drop-shadow(0 0 14px rgba(255,190,80,.45));
+}
+
+@keyframes flameMove{
+  from{ transform:rotate(-1.5deg) scale(1); opacity:.92; }
+  to{ transform:rotate(1.8deg) scale(1.03); opacity:1; }
+}
+
+.flame::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:50% 50% 50% 50%;
+  background:
+    radial-gradient(circle at 55% 35%, rgba(255,255,255,.95) 0 18%, rgba(255,245,170,.85) 19% 35%, rgba(255,170,60,.70) 36% 62%, rgba(255,120,0,.0) 63%);
+  transform:rotate(8deg);
+}
+
+.flame::after{
+  content:"";
+  position:absolute;
+  left:6px; right:6px; top:8px; bottom:6px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(255,255,255,.55) 0 22%, rgba(255,200,90,.35) 23% 55%, rgba(255,140,0,0) 56%);
+  filter:blur(.4px);
+}
+
+/* Mumun ortam ışığı (sayfanın üst kısmına sıcak ışık düşürür) */
+.candleGlow{
+  position:fixed;
+  top:-40px;
+  right:-60px;
+  width:520px;
+  height:420px;
+  z-index:4;
+  pointer-events:none;
+  background:radial-gradient(circle at 60% 40%, rgba(255,180,70,.18) 0 22%, rgba(255,120,0,.06) 23% 45%, rgba(0,0,0,0) 60%);
+  animation:glowPulse 1.2s infinite alternate;
+  mix-blend-mode:screen;
+}
+
+@keyframes glowPulse{
+  from{ opacity:.55; transform:scale(1); }
+  to{ opacity:.85; transform:scale(1.03); }
 }
 
 /* START */
 #startScreen{
-position:relative;
-z-index:5;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-height:100vh;
-text-align:center;
-color:white;
+  position:relative;
+  z-index:5;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  height:100vh;
+  text-align:center;
+  color:white;
 }
 
 h1{
-font-family:'Great Vibes',cursive;
-font-size:48px;
-margin:0 0 18px 0;
+  font-family:'Great Vibes',cursive;
+  font-size:48px;
+  margin:0 0 18px 0;
 }
 
+/* BOOK COVER */
 .book{
-width:300px;
-height:400px;
-perspective:1200px;
+  width:300px;
+  height:400px;
+  perspective:1200px;
 }
 .cover{
-width:100%;
-height:100%;
-position:relative;
-transform-style:preserve-3d;
-transition:transform 2s;
+  width:100%;
+  height:100%;
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform 2s;
 }
 .cover.open{
-transform:rotateY(-160deg);
+  transform:rotateY(-160deg);
 }
 .front{
-position:absolute;
-width:100%;
-height:100%;
-background:url('kapak.png') center/cover no-repeat;
-border-radius:10px;
-box-shadow:0 0 40px rgba(179,0,255,.85);
-backface-visibility:hidden;
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:url('kapak.png') center/cover no-repeat;
+  border-radius:10px;
+  box-shadow:0 0 40px rgba(179,0,255,.85);
+  backface-visibility:hidden;
 }
 
 button{
-margin-top:20px;
-padding:12px 30px;
-font-size:18px;
-border:none;
-border-radius:8px;
-background:linear-gradient(45deg,var(--purple),var(--magenta));
-color:white;
-cursor:pointer;
-box-shadow:0 0 18px rgba(179,0,255,.6);
+  margin-top:20px;
+  padding:12px 30px;
+  font-size:18px;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(45deg,var(--purple),var(--magenta));
+  color:white;
+  cursor:pointer;
+  box-shadow:0 0 18px rgba(179,0,255,.6);
+  touch-action: manipulation; /* ✅ mobil tıklama hissi */
 }
 
 #bookContainer{
-position:relative;
-z-index:6;
-display:none;
-justify-content:center;
-align-items:center;
-height:100vh;
-perspective:2000px;
+  position:relative;
+  z-index:6;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  perspective:2000px;
+}
+
+/* ✅ MOBİL: container yüksekliğini sabitleme yerine içerik kadar + padding */
+@media (max-width: 900px){
+  #startScreen{ height: 100svh; }
+  #bookContainer{
+    height:auto;
+    min-height:100svh;
+    padding:24px 0 40px;
+  }
 }
 
 .bookStage{
-position:relative;
-width:740px;
-height:540px;
-transform: translateZ(120px);
+  position:relative;
+  width:740px;
+  height:540px;
+  transform: translateZ(120px);
+}
+
+/* ✅ MOBİL: kitap ekrana sığsın */
+@media (max-width: 900px){
+  .bookStage{
+    width:min(92vw, 740px);
+    height: calc(min(92vw, 740px) * 0.73); /* 740x540 oranına yakın */
+  }
 }
 
 .page{
-position:absolute;
-inset:0;
-width:740px;
-height:540px;
-background:var(--paper);
-border:8px solid transparent;
-border-image:linear-gradient(45deg,var(--gold1),var(--gold2),var(--gold1)) 1;
-padding:22px;
-box-sizing:border-box;
-color:#2b1a00;
-opacity:0;
-pointer-events:none;
-transform-origin:left center;
-transform:rotateY(92deg);
-transition:transform .85s ease, opacity .4s ease;
-backface-visibility:hidden;
-box-shadow: inset 0 0 60px rgba(0,0,0,.18);
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  background:var(--paper);
+  border:8px solid transparent;
+  border-image:linear-gradient(45deg,var(--gold1),var(--gold2),var(--gold1)) 1;
+  padding:22px;
+  box-sizing:border-box;
+  color:#2b1a00;
+  opacity:0;
+  pointer-events:none;
+  transform-origin:left center;
+  transform:rotateY(92deg);
+  transition:transform .85s ease, opacity .4s ease;
+  backface-visibility:hidden;
+  box-shadow: inset 0 0 60px rgba(0,0,0,.18);
 }
 
 .page.active{
-opacity:1;
-pointer-events:auto;
-transform:rotateY(0deg);
-z-index:5;
+  opacity:1;
+  pointer-events:auto;
+  transform:rotateY(0deg);
+  z-index:5;
 }
 
 .page.turning{
-transform:rotateY(-115deg);
-opacity:0;
+  transform:rotateY(-115deg);
+  opacity:0;
 }
 
 .imageFrame{
-width:100%;
-height:66%;
-display:flex;
-justify-content:center;
-align-items:center;
-background:#e8d7b5;
-border:12px solid var(--frame);
-border-radius:8px;
-box-shadow:inset 0 0 26px rgba(0,0,0,.35),0 14px 30px rgba(0,0,0,.45);
-overflow:hidden;
+  width:100%;
+  height:66%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#e8d7b5;
+  border:12px solid var(--frame);
+  border-radius:8px;
+  box-shadow:inset 0 0 26px rgba(0,0,0,.35),0 14px 30px rgba(0,0,0,.45);
+  overflow:hidden;
 }
 
 .imageFrame img{
-max-width:92%;
-max-height:92%;
-object-fit:contain;
-display:block;
+  max-width:92%;
+  max-height:92%;
+  object-fit:contain;
+  display:block;
 }
 
-/* ✅ SADECE BURASI DEĞİŞTİ */
+/* Yazılar net + mor glow (senin istediğin gibi) */
 .text{
-margin-top:12px;
-font-family:'Great Vibes',cursive;
-font-weight:bold;
-font-style:italic;
-font-size:26px;
-text-align:center;
-user-select:none;
+  margin-top:12px;
+  font-family:'Great Vibes',cursive;
+  font-weight:bold;
+  font-style:italic;
+  font-size:26px;
+  text-align:center;
+  user-select:none;
 
-/* NETLEŞTİRME */
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
-text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
 
-/* MOR GAMMA IŞIK */
-color:#2b1a00;
-text-shadow:
-0 0 6px rgba(179,0,255,0.35),
-0 0 14px rgba(179,0,255,0.28),
-0 0 26px rgba(179,0,255,0.22),
-0 2px 0 rgba(0,0,0,0.12);
+  color:#2b1a00;
+  text-shadow:
+    0 0 6px rgba(179,0,255,0.35),
+    0 0 14px rgba(179,0,255,0.28),
+    0 0 26px rgba(179,0,255,0.22),
+    0 2px 0 rgba(0,0,0,0.12);
+}
+
+/* ✅ MOBİL: yazı biraz küçülsün taşmasın */
+@media (max-width: 900px){
+  .text{ font-size:24px; }
 }
 
 .nextBtn{
-position:absolute;
-bottom:16px;
-right:18px;
-padding:9px 18px;
-background:rgba(128,0,255,.92);
-color:white;
-border:none;
-border-radius:8px;
-cursor:pointer;
+  position:absolute;
+  bottom:16px;
+  right:18px;
+  padding:9px 18px;
+  background:rgba(128,0,255,.92);
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  box-shadow:0 0 16px rgba(179,0,255,.5);
+  touch-action: manipulation;
 }
 
 #finalPopup{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(0,0,0,0.88);
-display:none;
-justify-content:center;
-align-items:center;
-color:white;
-text-align:center;
-z-index:20;
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.88);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  text-align:center;
+  z-index:20;
+  padding:24px;
+  box-sizing:border-box;
 }
 
+.popupInner{
+  max-width:900px;
+  border:2px solid rgba(201,168,106,.55);
+  border-radius:18px;
+  padding:26px 22px;
+  box-shadow:0 0 40px rgba(179,0,255,.25);
+  background:radial-gradient(circle at 50% 30%, rgba(128,0,255,.18), rgba(0,0,0,.2));
+}
+.popupTitle{
+  font-family:'Great Vibes',cursive;
+  font-size:52px;
+  font-weight:bold;
+  font-style:italic;
+  margin-bottom:10px;
+}
+.popupText{
+  font-family:'Great Vibes',cursive;
+  font-size:34px;
+  font-weight:bold;
+  font-style:italic;
+  opacity:.95;
+}
+
+@media (max-width: 900px){
+  .popupTitle{ font-size:44px; }
+  .popupText{ font-size:28px; }
+}
 </style>
 </head>
+
 <body>
+  <div class="fog"></div>
+  <div class="light" id="light"></div>
 
-<div class="fog"></div>
-<div class="light" id="light"></div>
+  <!-- ✅ Gerçekçi mum -->
+  <div class="candleGlow"></div>
+  <div class="candleWrap" aria-hidden="true">
+    <div class="flame"></div>
+    <div class="wick"></div>
+    <div class="candleBody"></div>
+  </div>
 
-<div id="startScreen">
-<h1>Kurtarılmayı Bekleyen Prenses</h1>
-<div class="book">
-<div class="cover" id="cover">
-<div class="front"></div>
-</div>
-</div>
-<button onclick="startReading()">Okumaya Başla</button>
-</div>
+  <!-- START -->
+  <div id="startScreen">
+    <h1>Kurtarılmayı Bekleyen Prenses</h1>
 
-<div id="bookContainer">
-<div class="bookStage">
+    <div class="book">
+      <div class="cover" id="cover">
+        <div class="front"></div>
+      </div>
+    </div>
 
-<div class="page active">
-<div class="imageFrame"><img src="resim1.png"></div>
-<div class="text">Masalın ilk satırı burada başlar...</div>
-<button class="nextBtn" onclick="nextPage()">Sıradaki Sayfa →</button>
-</div>
+    <button onclick="startReading()">Okumaya Başla</button>
+  </div>
 
-<div class="page">
-<div class="imageFrame"><img src="resim2.png"></div>
-<div class="text">Aşk uzak diyarlarda yankılandı...</div>
-<button class="nextBtn" onclick="nextPage()">Sıradaki Sayfa →</button>
-</div>
+  <!-- BOOK -->
+  <div id="bookContainer">
+    <div class="bookStage">
 
-<div class="page">
-<div class="imageFrame"><img src="resim3.png"></div>
-<div class="text">Kalpler aynı kaderde buluştu...</div>
-<button class="nextBtn" onclick="nextPage()">Sıradaki Sayfa →</button>
-</div>
+      <div class="page active">
+        <div class="imageFrame"><img src="resim1.png" alt="Sayfa 1"></div>
+        <div class="text">Masalın ilk satırı burada başlar...</div>
+        <button class="nextBtn" onclick="nextPage()">Sıradaki Sayfa →</button>
+      </div>
 
-<div class="page">
-<div class="imageFrame"><img src="resim4.png"></div>
-<div class="text">Her sayfa yeni bir umut taşıdı...</div>
-<button class="nextBtn" onclick="nextPage()">Sıradaki Sayfa →</button>
-</div>
+      <div class="page">
+        <div class="imageFrame"><img src="resim2.png" alt="Sayfa 2"></div>
+        <div class="text">Aşk uzak diyarlarda yankılandı...</div>
+        <button class="nextBtn" onclick="nextPage()">Sıradaki Sayfa →</button>
+      </div>
 
-<div class="page">
-<div class="imageFrame"><img src="resim5.png"></div>
-<div class="text">Masal sonsuza dek sürdü...</div>
-<button class="nextBtn" onclick="finishStory()">Son →</button>
-</div>
+      <div class="page">
+        <div class="imageFrame"><img src="resim3.png" alt="Sayfa 3"></div>
+        <div class="text">Kalpler aynı kaderde buluştu...</div>
+        <button class="nextBtn" onclick="nextPage()">Sıradaki Sayfa →</button>
+      </div>
 
-</div>
-</div>
+      <div class="page">
+        <div class="imageFrame"><img src="resim4.png" alt="Sayfa 4"></div>
+        <div class="text">Her sayfa yeni bir umut taşıdı...</div>
+        <button class="nextBtn" onclick="nextPage()">Sıradaki Sayfa →</button>
+      </div>
 
-<audio id="bgMusic" src="evşann.mp3" loop></audio>
-<audio id="paperSound" src="paper.mp3"></audio>
+      <div class="page">
+        <div class="imageFrame"><img src="resim5.png" alt="Sayfa 5"></div>
+        <div class="text">Masal sonsuza dek sürdü...</div>
+        <button class="nextBtn" onclick="finishStory()">Son →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="finalPopup" onclick="closePopup()">
+    <div class="popupInner">
+      <div class="popupTitle">❤️ Berat & Evşan ❤️</div>
+      <div class="popupText">Bu masalın en güzel kısmı sensin.</div>
+    </div>
+  </div>
+
+  <audio id="bgMusic" src="evşann.mp3" loop></audio>
+  <audio id="paperSound" src="paper.mp3"></audio>
 
 <script>
-let current=0;
-const pages=document.querySelectorAll('.page');
+let current = 0;
+const pages = document.querySelectorAll('.page');
+
+function vibrate(ms=40){
+  if (navigator.vibrate) navigator.vibrate(ms);
+}
 
 function startReading(){
-document.getElementById('cover').classList.add('open');
-setTimeout(()=>{
-document.getElementById('startScreen').style.display='none';
-document.getElementById('bookContainer').style.display='flex';
-document.getElementById('bgMusic').play();
-},1800);
+  document.getElementById('cover').classList.add('open');
+
+  setTimeout(() => {
+    document.getElementById('startScreen').style.display = 'none';
+    document.getElementById('bookContainer').style.display = 'flex';
+
+    const m = document.getElementById('bgMusic');
+    m.play().catch(()=>{});
+  }, 1800);
+}
+
+function playPaper(){
+  const s = document.getElementById('paperSound');
+  s.currentTime = 0;
+  s.play().catch(()=>{});
 }
 
 function nextPage(){
-document.getElementById('paperSound').currentTime=0;
-document.getElementById('paperSound').play();
-pages[current].classList.add('turning');
-setTimeout(()=>{
-pages[current].classList.remove('active','turning');
-current++;
-pages[current].classList.add('active');
-},850);
-}
-</script>
+  if (current >= pages.length - 1) return;
 
+  playPaper();
+  vibrate(35);
+
+  pages[current].classList.add('turning');
+
+  setTimeout(() => {
+    pages[current].classList.remove('active','turning');
+    current++;
+    pages[current].classList.add('active');
+  }, 850);
+}
+
+function finishStory(){
+  playPaper();
+  vibrate(60);
+  document.getElementById('finalPopup').style.display = 'flex';
+}
+
+function closePopup(){
+  document.getElementById('finalPopup').style.display = 'none';
+}
+
+/* mouse light follow */
+const light = document.getElementById('light');
+document.addEventListener('mousemove', (e) => {
+  light.style.left = e.clientX + 'px';
+  light.style.top  = e.clientY + 'px';
+});
+</script>
 </body>
 </html>
