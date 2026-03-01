@@ -15,7 +15,6 @@
   --magenta:#ff00ff;
 }
 
-/* mobil kaydırma için */
 html, body{ height:100%; }
 
 body{
@@ -56,6 +55,29 @@ body{
   mix-blend-mode:screen;
 }
 
+/* ✅ (5) HAFİF PARÇACIK EFEKTİ (CPU dostu) */
+.particles{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:2;
+  opacity:.55;
+  background-image:
+    radial-gradient(rgba(179,0,255,0.18) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 42px 42px, 70px 70px;
+  background-position: 0 0, 10px 20px;
+  animation: particleDrift 22s linear infinite;
+}
+@keyframes particleDrift{
+  from{ transform:translate3d(0,0,0); }
+  to  { transform:translate3d(120px, 160px, 0); }
+}
+@media (max-width: 900px){
+  /* mobilde daha hafif */
+  .particles{ opacity:.35; background-size: 56px 56px, 88px 88px; }
+}
+
 /* START SCREEN */
 #startScreen{
   position:relative;
@@ -80,7 +102,7 @@ h1{
   margin:0 0 18px 0;
 }
 
-/* Kapak görseli (dekor) */
+/* Kapak görseli */
 .coverCard{
   width:min(320px, 86vw);
   aspect-ratio:3/4;
@@ -126,14 +148,11 @@ button{
   border-radius:18px;
   overflow:hidden;
   position:relative;
-
-  /* morumsu çerçeve + glow */
   border:2px solid rgba(179,0,255,.55);
   box-shadow:
     0 0 0 1px rgba(0,0,0,.35) inset,
     0 18px 55px rgba(0,0,0,.65),
     0 0 30px rgba(179,0,255,.25);
-
   background:rgba(0,0,0,.25);
 }
 
@@ -141,12 +160,39 @@ button{
 .videoFrame video{
   width:100%;
   height:100%;
-  object-fit:contain; /* taşma yok */
-  background:#000;    /* kenar boşluğu olursa siyah */
+  object-fit:contain;
+  background:#000;
   display:block;
 }
 
-/* üst köşede küçük bir “glow” şeridi (süs) */
+/* ✅ (3) KENARDA YAVAŞ MOR PARILTI (animated border glow) */
+.videoFrame::after{
+  content:"";
+  position:absolute;
+  inset:-3px;
+  border-radius:22px;
+  pointer-events:none;
+
+  /* iki katmanlı glow */
+  background:
+    conic-gradient(
+      from 0deg,
+      rgba(179,0,255,0.0),
+      rgba(179,0,255,0.35),
+      rgba(255,0,255,0.12),
+      rgba(179,0,255,0.0)
+    );
+  filter: blur(10px);
+  opacity:.85;
+  animation: borderSpin 6.5s linear infinite;
+  mix-blend-mode:screen;
+}
+@keyframes borderSpin{
+  from{ transform:rotate(0deg); }
+  to{ transform:rotate(360deg); }
+}
+
+/* üst köşede hafif glow şeridi (önceden vardı, kalsın) */
 .videoFrame::before{
   content:"";
   position:absolute;
@@ -160,7 +206,7 @@ button{
   to{ transform:translate(2%, 2%); opacity:.85; }
 }
 
-/* Mobilde mouse ışığı yok gibi; parmakla tıklayınca yeter */
+/* mobilde mouse ışığı kapalı */
 @media (max-width: 900px){
   .light{ display:none; }
 }
@@ -169,6 +215,7 @@ button{
 
 <body>
   <div class="fog"></div>
+  <div class="particles"></div> <!-- ✅ (5) -->
   <div class="light" id="light"></div>
 
   <!-- Başlangıç -->
@@ -181,32 +228,24 @@ button{
   <!-- Video alanı -->
   <div id="videoScreen">
     <div class="videoFrame">
-      <!--
-        Not: Mobil tarayıcılar autoplay için genelde "muted" ister.
-        Video başlar, kullanıcı isterse ses açar.
-      -->
+      <!-- Mobil autoplay için muted. İsterse kullanıcı ses açar. -->
       <video id="mainVideo" src="cyxares.mp4" controls playsinline preload="auto" muted></video>
     </div>
   </div>
 
 <script>
 function startVideo(){
-  // start ekranını kapat
   document.getElementById('startScreen').style.display = 'none';
-
-  // video ekranını aç
   const vs = document.getElementById('videoScreen');
   vs.style.display = 'flex';
 
-  // video oynat
   const v = document.getElementById('mainVideo');
   v.currentTime = 0;
 
-  // Autoplay dene (iOS için muted already set)
   const p = v.play();
   if (p && typeof p.catch === "function") {
     p.catch(() => {
-      // autoplay engellenirse kullanıcı zaten play'e basabilir (controls açık)
+      // autoplay engellenirse kullanıcı play'e basar (controls açık)
     });
   }
 }
