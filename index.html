@@ -1,263 +1,919 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>EVŞANIMA <3</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aşkımıza Adam Asmaca</title>
+  <style>
+    :root {
+      --bg1: #050505;
+      --bg2: #120612;
+      --bg3: #2a0a1f;
+      --primary: #ff4fa3;
+      --secondary: #ff88c8;
+      --gold: #ffb3da;
+      --glass: rgba(255,255,255,.10);
+      --border: rgba(255,255,255,.14);
+      --text: #fff5fb;
+      --muted: #f3cde2;
+      --success: #ff9fcf;
+      --danger: #ff7b9f;
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --radius: 28px;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; min-height: 100%; font-family: Inter, Arial, Helvetica, sans-serif; color: var(--text); }
+    body {
+      background:
+        radial-gradient(circle at 15% 20%, rgba(122,252,255,.18), transparent 22%),
+        radial-gradient(circle at 85% 15%, rgba(255,79,163,.24), transparent 24%),
+        radial-gradient(circle at 50% 80%, rgba(255,209,102,.18), transparent 22%),
+        linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+      overflow-x: hidden;
+    }
 
-<style>
-:root{
-  --bg1:#1a0026;
-  --bg2:#000000;
-  --purple:#8000ff;
-  --magenta:#ff00ff;
-}
+    .aurora, .aurora::before, .aurora::after {
+      position: fixed;
+      inset: -20%;
+      pointer-events: none;
+      content: "";
+      z-index: 0;
+      filter: blur(60px);
+      animation: drift 18s ease-in-out infinite alternate;
+      opacity: .5;
+    }
+    .aurora::before {
+      background: radial-gradient(circle, rgba(255,79,163,.20) 0%, transparent 55%);
+      transform: translate(15%, 10%);
+      animation-duration: 25s;
+    }
+    .aurora::after {
+      background: radial-gradient(circle, rgba(122,252,255,.18) 0%, transparent 60%);
+      transform: translate(-10%, -15%);
+      animation-duration: 20s;
+    }
+    .aurora {
+      background: radial-gradient(circle, rgba(255,209,102,.16) 0%, transparent 50%);
+    }
 
-html, body{ height:100%; }
+    .sparkles {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .sparkles span {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 0 12px rgba(255,255,255,.9);
+      animation: twinkle linear infinite;
+      opacity: .6;
+    }
 
-body{
-  margin:0;
-  font-family:'Cinzel',serif;
-  background:radial-gradient(circle at center,var(--bg1),var(--bg2));
-  overflow:hidden;
-}
-@media (max-width: 900px){
-  body{ overflow-y:auto; -webkit-overflow-scrolling:touch; }
-}
+    .site {
+      position: relative;
+      z-index: 1;
+      width: min(1280px, calc(100% - 32px));
+      margin: 24px auto 60px;
+    }
 
-/* Fog */
-.fog{
-  position:fixed;
-  width:200%;
-  height:200%;
-  background:radial-gradient(rgba(255,255,255,0.04),transparent 70%);
-  animation:fogMove 40s linear infinite;
-  pointer-events:none;
-  z-index:1;
-}
-@keyframes fogMove{
-  from{transform:translate(-20%,-20%)}
-  to{transform:translate(0,0)}
-}
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-bottom: 24px;
+    }
 
-/* Mouse light */
-.light{
-  position:fixed;
-  width:320px;
-  height:320px;
-  border-radius:50%;
-  pointer-events:none;
-  background:radial-gradient(circle,rgba(255,0,255,0.25),transparent 70%);
-  transform:translate(-50%,-50%);
-  z-index:2;
-  mix-blend-mode:screen;
-}
+    .glass {
+      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.08));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-radius: var(--radius);
+      position: relative;
+      overflow: hidden;
+    }
 
-/* ✅ (5) HAFİF PARÇACIK EFEKTİ (CPU dostu) */
-.particles{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:2;
-  opacity:.55;
-  background-image:
-    radial-gradient(rgba(179,0,255,0.18) 1px, transparent 1px),
-    radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
-  background-size: 42px 42px, 70px 70px;
-  background-position: 0 0, 10px 20px;
-  animation: particleDrift 22s linear infinite;
-}
-@keyframes particleDrift{
-  from{ transform:translate3d(0,0,0); }
-  to  { transform:translate3d(120px, 160px, 0); }
-}
-@media (max-width: 900px){
-  /* mobilde daha hafif */
-  .particles{ opacity:.35; background-size: 56px 56px, 88px 88px; }
-}
+    .glass::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.1) 20%, transparent 40%);
+      transform: translateX(-100%);
+      animation: shine 10s linear infinite;
+    }
 
-/* START SCREEN */
-#startScreen{
-  position:relative;
-  z-index:5;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  height:100vh;
-  text-align:center;
-  color:white;
-  padding:18px;
-  box-sizing:border-box;
-}
-@media (max-width: 900px){
-  #startScreen{ height:100svh; }
-}
+    .hero-card { padding: 34px; }
 
-h1{
-  font-family:'Great Vibes',cursive;
-  font-size:48px;
-  margin:0 0 18px 0;
-}
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.15);
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
 
-/* Kapak görseli */
-.coverCard{
-  width:min(320px, 86vw);
-  aspect-ratio:3/4;
-  background:url('kapak.png') center/cover no-repeat;
-  border-radius:14px;
-  box-shadow:0 0 40px rgba(179,0,255,.75);
-  border:2px solid rgba(179,0,255,.35);
-}
+    .hero h1 {
+      margin: 0 0 14px;
+      font-size: clamp(36px, 6vw, 74px);
+      line-height: .95;
+      letter-spacing: -.04em;
+      text-shadow: 0 8px 30px rgba(0,0,0,.28);
+    }
 
-/* Buton */
-button{
-  margin-top:18px;
-  padding:12px 30px;
-  font-size:18px;
-  border:none;
-  border-radius:10px;
-  background:linear-gradient(45deg,var(--purple),var(--magenta));
-  color:white;
-  cursor:pointer;
-  box-shadow:0 0 18px rgba(179,0,255,.6);
-  touch-action: manipulation;
-}
+    .gradient-text {
+      background: linear-gradient(90deg, #fff, #ffd166, #ff4fa3, #7afcff, #fff);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: gradientShift 8s linear infinite;
+    }
 
-/* VIDEO SCREEN */
-#videoScreen{
-  position:relative;
-  z-index:6;
-  display:none;
-  min-height:100vh;
-  justify-content:center;
-  align-items:center;
-  padding:22px 0 40px;
-  box-sizing:border-box;
-}
-@media (max-width: 900px){
-  #videoScreen{ min-height:100svh; }
-}
+    .hero p {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 780px;
+    }
 
-/* 16:9 çerçeve */
-.videoFrame{
-  width:min(92vw, 980px);
-  aspect-ratio:16/9;
-  border-radius:18px;
-  overflow:hidden;
-  position:relative;
-  border:2px solid rgba(179,0,255,.55);
-  box-shadow:
-    0 0 0 1px rgba(0,0,0,.35) inset,
-    0 18px 55px rgba(0,0,0,.65),
-    0 0 30px rgba(179,0,255,.25);
-  background:rgba(0,0,0,.25);
-}
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
 
-/* Video taşmasın */
-.videoFrame video{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  background:#000;
-  display:block;
-}
+    button {
+      border: 0;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease, background .18s ease;
+      font: inherit;
+    }
 
-/* ✅ (3) KENARDA YAVAŞ MOR PARILTI (animated border glow) */
-.videoFrame::after{
-  content:"";
-  position:absolute;
-  inset:-3px;
-  border-radius:22px;
-  pointer-events:none;
+    .btn {
+      padding: 14px 18px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 700;
+      letter-spacing: .02em;
+      position: relative;
+      overflow: hidden;
+    }
 
-  /* iki katmanlı glow */
-  background:
-    conic-gradient(
-      from 0deg,
-      rgba(179,0,255,0.0),
-      rgba(179,0,255,0.35),
-      rgba(255,0,255,0.12),
-      rgba(179,0,255,0.0)
-    );
-  filter: blur(10px);
-  opacity:.85;
-  animation: borderSpin 6.5s linear infinite;
-  mix-blend-mode:screen;
-}
-@keyframes borderSpin{
-  from{ transform:rotate(0deg); }
-  to{ transform:rotate(360deg); }
-}
+    .btn-primary {
+      background: linear-gradient(135deg, #ff4fa3, #b43cff);
+      box-shadow: 0 12px 30px rgba(255,79,163,.35);
+    }
 
-/* üst köşede hafif glow şeridi (önceden vardı, kalsın) */
-.videoFrame::before{
-  content:"";
-  position:absolute;
-  inset:-60% -20%;
-  background:radial-gradient(circle at 30% 30%, rgba(179,0,255,.18), transparent 55%);
-  animation:floatGlow 6s ease-in-out infinite alternate;
-  pointer-events:none;
-}
-@keyframes floatGlow{
-  from{ transform:translate(-2%, -2%); opacity:.55; }
-  to{ transform:translate(2%, 2%); opacity:.85; }
-}
+    .btn-secondary {
+      background: linear-gradient(135deg, #ff94cb, #ff4fa3);
+      box-shadow: 0 12px 30px rgba(255,79,163,.28);
+      color: white;
+    }
 
-/* mobilde mouse ışığı kapalı */
-@media (max-width: 900px){
-  .light{ display:none; }
-}
-</style>
+    .btn-ghost {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.16);
+    }
+
+    .btn:hover { transform: translateY(-2px) scale(1.01); }
+    .btn:active { transform: translateY(1px) scale(.995); }
+
+    .hero-side {
+      display: grid;
+      gap: 18px;
+      align-content: space-between;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      padding: 22px;
+    }
+    .stat {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      text-align: center;
+    }
+    .stat h3 {
+      margin: 0;
+      font-size: clamp(26px, 4vw, 34px);
+    }
+    .stat p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 24px;
+    }
+
+    .panel { padding: 26px; }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .panel-title h2 { margin: 0; font-size: 28px; }
+    .panel-title span { color: var(--muted); font-size: 14px; }
+
+    .game-grid {
+      display: grid;
+      grid-template-columns: .92fr 1.08fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .hangman-stage {
+      min-height: 460px;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,.16), rgba(255,255,255,.05)),
+        rgba(9, 10, 28, .36);
+      border: 1px solid rgba(255,255,255,.12);
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hangman-stage::after {
+      content: "";
+      position: absolute;
+      left: -20%; right: -20%; bottom: -35px;
+      height: 100px;
+      background: radial-gradient(circle at center, rgba(255,255,255,.18), transparent 60%);
+      filter: blur(14px);
+      opacity: .55;
+    }
+
+    svg { width: min(100%, 360px); height: auto; }
+
+    .rope { stroke-dasharray: 100; stroke-dashoffset: 100; animation: draw .6s ease forwards; }
+    .body-part { opacity: 0; transform-origin: center; transform: scale(.85); animation: pop .45s ease forwards; }
+
+    .word-card, .letters-card, .meta-card {
+      border-radius: 24px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      padding: 18px;
+    }
+
+    .word-display {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      min-height: 82px;
+      margin-bottom: 14px;
+    }
+
+    .letter-slot {
+      width: clamp(40px, 5.2vw, 56px);
+      height: clamp(52px, 6vw, 70px);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+      border: 1px solid rgba(255,255,255,.12);
+      display: grid;
+      place-items: center;
+      font-size: clamp(20px, 2.7vw, 30px);
+      font-weight: 800;
+      text-transform: uppercase;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.15);
+      animation: rise .45s ease;
+    }
+
+    .category {
+      text-align: center;
+      color: var(--gold);
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .hint {
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+      min-height: 48px;
+    }
+
+    .meta-wrap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 18px 0;
+    }
+
+    .meta-card strong {
+      display: block;
+      font-size: 30px;
+      margin-bottom: 6px;
+    }
+    .meta-card span { color: var(--muted); font-size: 13px; }
+
+    .letters {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .letter-btn {
+      min-height: 52px;
+      border-radius: 16px;
+      font-weight: 800;
+      font-size: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.07));
+      color: white;
+      border: 1px solid rgba(255,255,255,.13);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
+    }
+    .letter-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      background: linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,.10));
+    }
+    .letter-btn:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
+    .letter-btn.correct {
+      background: linear-gradient(135deg, rgba(140,255,152,.55), rgba(69,199,99,.45));
+      color: #08160d;
+    }
+    .letter-btn.wrong {
+      background: linear-gradient(135deg, rgba(255,123,123,.62), rgba(221,69,69,.42));
+    }
+
+    .message {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.6;
+      font-weight: 600;
+    }
+
+    .win { color: var(--success); }
+    .lose { color: var(--danger); }
+
+    
+
+    .heart {
+      position: absolute;
+      font-size: 18px;
+      animation: floatUp 5s linear forwards;
+      pointer-events: none;
+      opacity: .95;
+      filter: drop-shadow(0 5px 10px rgba(0,0,0,.25));
+    }
+
+    
+
+    .entry-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at top, rgba(255,79,163,.20), transparent 35%),
+        radial-gradient(circle at bottom, rgba(255,135,200,.14), transparent 40%),
+        linear-gradient(135deg, rgba(5,5,5,.88), rgba(18,6,18,.94), rgba(42,10,31,.96));
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: opacity .4s ease, visibility .4s ease;
+    }
+    .entry-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .entry-card {
+      width: min(720px, 100%);
+      padding: 34px;
+      border-radius: 32px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .entry-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(34px, 6vw, 60px);
+      line-height: .95;
+      letter-spacing: -.04em;
+    }
+    .entry-card p {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.8;
+    }
+    .entry-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 1100px) {
+      .hero, .layout, .game-grid { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: repeat(3, 1fr); }
+    }
+      .stats { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 760px) {
+      .site { width: min(100% - 20px, 1280px); }
+      .hero-card, .panel, .entry-card { padding: 20px; }
+      .stats, .meta-wrap { grid-template-columns: 1fr; }
+      .letters { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+      .panel-title { flex-direction: column; align-items: flex-start; }
+      .hero-actions, .entry-actions { flex-direction: column; }
+      .btn { width: 100%; }
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+    @keyframes drift {
+      from { transform: translate3d(-2%, 1%, 0) scale(1); }
+      to { transform: translate3d(3%, -2%, 0) scale(1.08); }
+    }
+    @keyframes twinkle {
+      from { transform: translateY(100vh) scale(.6); opacity: 0; }
+      10%,90% { opacity: .75; }
+      to { transform: translateY(-10vh) scale(1.1); opacity: 0; }
+    }
+    @keyframes shine {
+      0% { transform: translateX(-120%); }
+      25%,100% { transform: translateX(140%); }
+    }
+    @keyframes draw {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes pop {
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes rise {
+      from { transform: translateY(12px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes floatUp {
+      from { transform: translateY(0) scale(.8) rotate(0); opacity: 1; }
+      to { transform: translateY(-220px) scale(1.25) rotate(20deg); opacity: 0; }
+    }
+  </style>
 </head>
-
 <body>
-  <div class="fog"></div>
-  <div class="particles"></div> <!-- ✅ (5) -->
-  <div class="light" id="light"></div>
+  <div class="aurora"></div>
+  <div class="sparkles" id="sparkles"></div>
 
-  <!-- Başlangıç -->
-  <div id="startScreen">
-    <h1>Tatlı Rüyalar Prensesimmm🐱</h1>
-    <div class="coverCard" aria-hidden="true"></div>
-    <button onclick="startVideo()">Okumaya Başla</button>
-  </div>
+  <div class="entry-screen" id="entryScreen">
+    <div class="entry-card">
+      <div class="badge">pembe & siyah özel sürüm</div>
+      <h2><span class="gradient-text">Adam Asmaca</span></h2>
+      <p>Gösterişli, animasyonlu ve tek dosyada çalışan özel adam asmaca oyunu. Yeni tur başladığında sadece ip görünür; her yanlış tahminde adam parça parça oluşur ve son yanlışta tamamen asılmış olur.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" id="newGameBtn">yeni oyun başlat</button>
+          <button class="btn btn-secondary" id="hintBtn">ipucu aç</button>
+          <button class="btn btn-ghost" id="musicBtn">efekt modu: açık</button>
+        </div>
+      </div>
 
-  <!-- Video alanı -->
-  <div id="videoScreen">
-    <div class="videoFrame">
-      <!-- Mobil autoplay için muted. İsterse kullanıcı ses açar. -->
-      <video id="mainVideo" src="cyxares.mp4" controls playsinline preload="auto" muted></video>
-    </div>
-  </div>
+      <div class="hero-side">
+        <div class="glass stats">
+          <div class="stat">
+            <h3 id="wins">0</h3>
+            <p>kazanılan tur</p>
+          </div>
+          <div class="stat">
+            <h3 id="losses">0</h3>
+            <p>kaybedilen tur</p>
+          </div>
+          <div class="stat">
+            <h3 id="streak">0</h3>
+            <p>seri</p>
+          </div>
+        </div>
 
-<script>
-function startVideo(){
-  document.getElementById('startScreen').style.display = 'none';
-  const vs = document.getElementById('videoScreen');
-  vs.style.display = 'flex';
+        </div>
+    </section>
 
-  const v = document.getElementById('mainVideo');
-  v.currentTime = 0;
+    <section class="layout">
+      <div class="glass panel">
+        <div class="panel-title">
+          <h2>oyun alanı</h2>
+          <span>yanlış hak: <strong id="remainingLives">6</strong> / 6</span>
+        </div>
 
-  const p = v.play();
-  if (p && typeof p.catch === "function") {
-    p.catch(() => {
-      // autoplay engellenirse kullanıcı play'e basar (controls açık)
+        <div class="game-grid">
+          <div class="hangman-stage">
+            <svg viewBox="0 0 320 360" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="adam asmaca çizimi">
+              <line x1="40" y1="320" x2="240" y2="320" stroke="rgba(255,255,255,.8)" stroke-width="8" stroke-linecap="round" />
+              <line x1="80" y1="320" x2="80" y2="40" stroke="rgba(255,255,255,.85)" stroke-width="8" stroke-linecap="round" />
+              <line x1="80" y1="40" x2="190" y2="40" stroke="rgba(255,255,255,.85)" stroke-width="8" stroke-linecap="round" />
+              <line class="rope" id="rope" x1="190" y1="40" x2="190" y2="84" stroke="#ffd166" stroke-width="6" stroke-linecap="round" />
+
+              <circle id="part-head" class="body-part" cx="190" cy="108" r="24" stroke="#ffffff" stroke-width="6" />
+              <line id="part-body" class="body-part" x1="190" y1="132" x2="190" y2="212" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+              <line id="part-arm-left" class="body-part" x1="190" y1="150" x2="150" y2="182" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+              <line id="part-arm-right" class="body-part" x1="190" y1="150" x2="230" y2="182" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+              <line id="part-leg-left" class="body-part" x1="190" y1="212" x2="154" y2="270" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+              <line id="part-leg-right" class="body-part" x1="190" y1="212" x2="226" y2="270" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+            </svg>
+          </div>
+
+          <div>
+            <div class="word-card">
+              <div class="category" id="category">kategori</div>
+              <div class="word-display" id="wordDisplay"></div>
+              <div class="hint" id="hintText">İpucu için butona basabilirsin.</div>
+            </div>
+
+            <div class="meta-wrap">
+              <div class="meta-card">
+                <strong id="wrongCount">0</strong>
+                <span>yanlış tahmin</span>
+              </div>
+              <div class="meta-card">
+                <strong id="usedCount">0</strong>
+                <span>kullanılan harf</span>
+              </div>
+              <div class="meta-card">
+                <strong id="roundScore">100</strong>
+                <span>tur puanı</span>
+              </div>
+            </div>
+
+            <div class="letters-card">
+              <div class="letters" id="letters"></div>
+            </div>
+
+            <div class="message" id="messageBox">Bir harf seç ve kelimeyi bulmaya çalışın.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const WORDS = [
+      {
+        word: 'SEVGİ',
+        category: 'duygu',
+        hint: 'Bir ilişkinin en temel ve en güçlü bağı.'
+      },
+      {
+        word: 'MASAL',
+        category: 'romantik tema',
+        hint: 'Birlikte yaşanan güzel şeyler bazen buna benzer gelir.'
+      },
+      {
+        word: 'GÜLÜŞ',
+        category: 'anı',
+        hint: 'Bir insanın yüzünde görüp içinin ısındığı şey.'
+      },
+      {
+        word: 'KALP',
+        category: 'sembol',
+        hint: 'Aşk denince akla ilk gelen şekil.'
+      },
+      {
+        word: 'YILDIZ',
+        category: 'gökyüzü',
+        hint: 'Gece parlayan ve romantik sahneleri güzelleştiren şey.'
+      },
+      {
+        word: 'SONSUZ',
+        category: 'bağlılık',
+        hint: 'Hiç bitmeyecekmiş gibi hissedilen bir şey.'
+      },
+      {
+        word: 'RÜYA',
+        category: 'his',
+        hint: 'Yaşanan çok güzel bir an bazen buna benzetilir.'
+      },
+      {
+        word: 'TUTKU',
+        category: 'duygu',
+        hint: 'Sevginin yoğun ve güçlü hali.'
+      },
+      {
+        word: 'MEHTAP',
+        category: 'gece',
+        hint: 'Ay ışığının geceye vurmuş haline verilen isim.'
+      },
+      {
+        word: 'BİRLİKTE',
+        category: 'ilişki',
+        hint: 'İki insanın aynı tarafta olduğunu anlatan kelime.'
+      },
+      {
+        word: 'UMUT',
+        category: 'his',
+        hint: 'Zor zamanda bile insanı ileri taşıyan duygu.'
+      },
+      {
+        word: 'AŞK',
+        category: 'ana tema',
+        hint: 'Bu oyunun kalbi.'
+      },
+      {
+        word: 'HAYAL',
+        category: 'gelecek',
+        hint: 'Birlikte kurulan güzel planların ortak adı.'
+      },
+      {
+        word: 'MUCİZE',
+        category: 'özel his',
+        hint: 'İnsanın hayatına çok özel biri girince buna benzetilebilir.'
+      },
+      {
+        word: 'SADAKAT',
+        category: 'ilişki',
+        hint: 'Güvenin büyük parçalarından biri.'
+      }
+    ];
+
+    const ALPHABET = ['A','B','C','Ç','D','E','F','G','Ğ','H','I','İ','J','K','L','M','N','O','Ö','P','R','S','Ş','T','U','Ü','V','Y','Z'];
+    const MAX_WRONG = 6;
+
+    const wordDisplay = document.getElementById('wordDisplay');
+    const categoryEl = document.getElementById('category');
+    const hintText = document.getElementById('hintText');
+    const lettersEl = document.getElementById('letters');
+    const messageBox = document.getElementById('messageBox');
+    const wrongCountEl = document.getElementById('wrongCount');
+    const usedCountEl = document.getElementById('usedCount');
+    const roundScoreEl = document.getElementById('roundScore');
+    const remainingLivesEl = document.getElementById('remainingLives');
+    const winsEl = document.getElementById('wins');
+    const lossesEl = document.getElementById('losses');
+    const streakEl = document.getElementById('streak');
+    const newGameBtn = document.getElementById('newGameBtn');
+    const enterGameBtn = document.getElementById('enterGameBtn');
+    const entryNewGameBtn = document.getElementById('entryNewGameBtn');
+    const entryScreen = document.getElementById('entryScreen');
+    const hintBtn = document.getElementById('hintBtn');
+    const musicBtn = document.getElementById('musicBtn');
+
+    const bodyParts = [
+      document.getElementById('part-body'),
+      document.getElementById('part-arm-left'),
+      document.getElementById('part-arm-right'),
+      document.getElementById('part-leg-left'),
+      document.getElementById('part-leg-right'),
+      document.getElementById('part-head')
+    ];
+
+    let currentWord = '';
+    let startedFromEntry = false;
+    let currentHint = '';
+    let currentCategory = '';
+    let guessed = new Set();
+    let wrong = 0;
+    let wins = 0;
+    let losses = 0;
+    let streak = 0;
+    let gameOver = false;
+    let effectsOn = true;
+
+    function randomWord() {
+      return WORDS[Math.floor(Math.random() * WORDS.length)];
+    }
+
+    function setupSparkles() {
+      const wrap = document.getElementById('sparkles');
+      for (let i = 0; i < 38; i++) {
+        const s = document.createElement('span');
+        s.style.left = Math.random() * 100 + '%';
+        s.style.animationDuration = (8 + Math.random() * 12) + 's';
+        s.style.animationDelay = (Math.random() * -20) + 's';
+        s.style.opacity = 0.2 + Math.random() * 0.75;
+        const size = 2 + Math.random() * 4;
+        s.style.width = size + 'px';
+        s.style.height = size + 'px';
+        wrap.appendChild(s);
+      }
+    }
+
+    function renderWord() {
+      wordDisplay.innerHTML = '';
+      [...currentWord].forEach(char => {
+        const slot = document.createElement('div');
+        slot.className = 'letter-slot';
+        slot.textContent = guessed.has(char) ? char : '•';
+        if (char === ' ') slot.textContent = '';
+        wordDisplay.appendChild(slot);
+      });
+    }
+
+    function renderLetters() {
+      lettersEl.innerHTML = '';
+      ALPHABET.forEach(letter => {
+        const btn = document.createElement('button');
+        btn.className = 'letter-btn';
+        btn.textContent = letter;
+        btn.disabled = guessed.has(letter) || gameOver;
+
+        if (guessed.has(letter)) {
+          btn.classList.add(currentWord.includes(letter) ? 'correct' : 'wrong');
+        }
+
+        btn.addEventListener('click', () => handleGuess(letter, btn));
+        lettersEl.appendChild(btn);
+      });
+    }
+
+    function updateStats() {
+      wrongCountEl.textContent = wrong;
+      usedCountEl.textContent = guessed.size;
+      remainingLivesEl.textContent = MAX_WRONG - wrong;
+      roundScoreEl.textContent = Math.max(0, 100 - wrong * 15);
+      winsEl.textContent = wins;
+      lossesEl.textContent = losses;
+      streakEl.textContent = streak;
+    }
+
+    function revealBody() {
+      bodyParts.forEach((part, index) => {
+        part.style.opacity = index < wrong ? '1' : '0';
+        part.style.transform = index < wrong ? 'scale(1)' : 'scale(.85)';
+        if (index === wrong - 1) {
+          part.style.animation = 'none';
+          void part.offsetWidth;
+          part.style.animation = 'pop .45s ease forwards';
+        }
+      });
+    }
+
+    function checkWin() {
+      return [...new Set(currentWord.replace(/\s/g, '').split(''))].every(letter => guessed.has(letter));
+    }
+
+    function createHearts(count = 10) {
+      if (!effectsOn) return;
+      const icons = ['💖', '💕', '✨', '💘', '💗'];
+      for (let i = 0; i < count; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.textContent = icons[Math.floor(Math.random() * icons.length)];
+        heart.style.left = (10 + Math.random() * 80) + '%';
+        heart.style.bottom = (30 + Math.random() * 30) + 'px';
+        heart.style.animationDuration = (3 + Math.random() * 2) + 's';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5200);
+      }
+    }
+
+    function showMessage(text, type = '') {
+      messageBox.className = 'message';
+      if (type) messageBox.classList.add(type);
+      messageBox.innerHTML = text;
+    }
+
+    function endGame(won) {
+      gameOver = true;
+      renderLetters();
+
+      if (won) {
+        wins++;
+        streak++;
+        showMessage(`Tebrikler! Kelimeyi buldunuz: <strong>${currentWord}</strong> 🎉`, 'win');
+        createHearts(14);
+      } else {
+        losses++;
+        streak = 0;
+        showMessage(`Tur bitti. Doğru kelime <strong>${currentWord}</strong> idi. Yeni tur deneyin.`, 'lose');
+      }
+      updateStats();
+    }
+
+    function handleGuess(letter) {
+      if (gameOver || guessed.has(letter)) return;
+      guessed.add(letter);
+
+      if (currentWord.includes(letter)) {
+        showMessage(`Güzel seçim! <strong>${letter}</strong> harfi kelimede var. 💫`);
+        if (effectsOn) createHearts(3);
+      } else {
+        wrong++;
+        revealBody();
+        showMessage(`Bu kez olmadı. <strong>${letter}</strong> harfi kelimede yok.`, 'lose');
+      }
+
+      renderWord();
+      renderLetters();
+      updateStats();
+
+      if (checkWin()) {
+        endGame(true);
+      } else if (wrong >= MAX_WRONG) {
+        endGame(false);
+      }
+    }
+
+    function newGame() {
+      const selected = randomWord();
+      currentWord = selected.word;
+      currentHint = selected.hint;
+      currentCategory = selected.category;
+      guessed = new Set();
+      wrong = 0;
+      gameOver = false;
+
+      categoryEl.textContent = currentCategory;
+      hintText.textContent = 'İpucu için butona basabilirsin.';
+      bodyParts.forEach(part => {
+        part.style.opacity = '0';
+        part.style.transform = 'scale(.85)';
+      });
+
+      renderWord();
+      renderLetters();
+      updateStats();
+      showMessage('Yeni tur başladı. İlk yanlışta gövde oluşur, sonra kollar ve bacaklar gelir, son yanlışta kafa eklenir.');
+    }
+
+    hintBtn.addEventListener('click', () => {
+      hintText.textContent = currentHint;
+      showMessage('İpucu açıldı. Artık kelimeyi tahmin etmek daha kolay olabilir. ✨');
     });
-  }
-}
 
-// mouse light follow (desktop)
-const light = document.getElementById('light');
-document.addEventListener('mousemove', (e) => {
-  if (!light) return;
-  light.style.left = e.clientX + 'px';
-  light.style.top  = e.clientY + 'px';
-});
-</script>
+    newGameBtn.addEventListener('click', () => {
+      newGame();
+      createHearts(8);
+    });
+
+    enterGameBtn.addEventListener('click', () => {
+      startedFromEntry = true;
+      entryScreen.classList.add('hidden');
+      createHearts(8);
+    });
+
+    entryNewGameBtn.addEventListener('click', () => {
+      newGame();
+      startedFromEntry = true;
+      entryScreen.classList.add('hidden');
+      createHearts(10);
+    });
+
+    musicBtn.addEventListener('click', () => {
+      effectsOn = !effectsOn;
+      musicBtn.textContent = `efekt modu: ${effectsOn ? 'açık' : 'kapalı'}`;
+      showMessage(effectsOn ? 'Görsel efektler yeniden açıldı. 🌟' : 'Görsel efektler kapatıldı.');
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!startedFromEntry && (e.key === 'Enter' || e.key === ' ')) {
+        startedFromEntry = true;
+        entryScreen.classList.add('hidden');
+      }
+      const key = e.key.toLocaleUpperCase('tr-TR');
+      if (ALPHABET.includes(key)) handleGuess(key);
+      if (e.key === 'Enter') newGame();
+    });
+
+    setupSparkles();
+    newGame();
+  </script>
 </body>
 </html>
-
