@@ -455,9 +455,9 @@
 
   <div class="entry-screen" id="entryScreen">
     <div class="entry-card glass">
-      <div class="entry-badge">oyunuma hoş geldiniz</div>
+      <div class="entry-badge">pembe & siyah sürüm</div>
       <h1>Adam Asmaca</h1>
-      <p>Yeni tur başladığında sadece ip görünür. Her yanlış tahminde adamın bir parçası gelir, son yanlışta tamamen asılmış olur. fazla kasma amk adam asmaca işte</p>
+      <p>Yeni tur başladığında sadece ip görünür. Her yanlış tahminde adamın bir parçası gelir, son yanlışta tamamen asılmış olur.</p>
       <div class="entry-actions">
         <button class="btn btn-primary" id="enterGameBtn">oyuna başla</button>
         <button class="btn btn-secondary" id="entryNewGameBtn">rastgele tur hazırla</button>
@@ -469,7 +469,7 @@
     <section class="hero">
       <div class="glass hero-card">
         <h2>Adam Asmaca</h2>
-        <p>sitede farklı türlerde hata alabilirsiniz oyunumuzu geliştirmek için paylaşarak destek olmayı unutmayın.</p>
+        <p>Sade, düzenli ve tek ekranda çalışan sürüm. Yazı animasyonları kaldırıldı, yerleşim temizlendi ve oyun alanı toparlandı.</p>
         <div class="hero-actions">
           <button class="btn btn-primary" id="newGameBtn">yeni oyun başlat</button>
           <button class="btn btn-secondary" id="hintBtn">ipucu aç</button>
@@ -552,22 +552,128 @@
 
   <script>
     const WORDS = [
-      { word: 'SEVGİ', category: 'duygu', hint: 'Bir ilişkinin en temel ve en güçlü bağı.' },
-      { word: 'MASAL', category: 'romantik tema', hint: 'Birlikte yaşanan güzel şeyler bazen buna benzer gelir.' },
-      { word: 'GÜLÜŞ', category: 'anı', hint: 'Bir insanın yüzünde görüp içinin ısındığı şey.' },
-      { word: 'KALP', category: 'sembol', hint: 'Aşk denince akla ilk gelen şekil.' },
-      { word: 'YILDIZ', category: 'gökyüzü', hint: 'Gece parlayan ve romantik sahneleri güzelleştiren şey.' },
-      { word: 'SONSUZ', category: 'bağlılık', hint: 'Hiç bitmeyecekmiş gibi hissedilen bir şey.' },
-      { word: 'RÜYA', category: 'his', hint: 'Yaşanan çok güzel bir an bazen buna benzetilir.' },
-      { word: 'TUTKU', category: 'duygu', hint: 'Sevginin yoğun ve güçlü hali.' },
-      { word: 'MEHTAP', category: 'gece', hint: 'Ay ışığının geceye vurmuş haline verilen isim.' },
-      { word: 'BİRLİKTE', category: 'ilişki', hint: 'İki insanın aynı tarafta olduğunu anlatan kelime.' },
-      { word: 'UMUT', category: 'his', hint: 'Zor zamanda bile insanı ileri taşıyan duygu.' },
-      { word: 'AŞK', category: 'ana tema', hint: 'Bu oyunun kalbi.' },
-      { word: 'HAYAL', category: 'gelecek', hint: 'Birlikte kurulan güzel planların ortak adı.' },
-      { word: 'MUCİZE', category: 'özel his', hint: 'İnsanın hayatına çok özel biri girince buna benzetilebilir.' },
-      { word: 'SADAKAT', category: 'ilişki', hint: 'Güvenin büyük parçalarından biri.' }
-    ];
+{word:'KİTAP',category:'genel',hint:'Okunan sayfalardan oluşur'},
+{word:'BİLGİ',category:'genel',hint:'Öğrenilen şey'},
+{word:'OKYANUS',category:'doğa',hint:'Dünyadaki en büyük su kütlesi'},
+{word:'DAĞ',category:'doğa',hint:'Yüksek kara parçası'},
+{word:'ORMAN',category:'doğa',hint:'Ağaçlarla kaplı alan'},
+{word:'TELEFON',category:'teknoloji',hint:'İletişim aracı'},
+{word:'BİLGİSAYAR',category:'teknoloji',hint:'Programların çalıştığı cihaz'},
+{word:'KLAVYE',category:'teknoloji',hint:'Yazı yazmak için kullanılır'},
+{word:'EKRAN',category:'teknoloji',hint:'Görüntü verilen yüzey'},
+{word:'YAZILIM',category:'teknoloji',hint:'Programların genel adı'},
+{word:'FUTBOL',category:'spor',hint:'11 kişiyle oynanan spor'},
+{word:'BASKETBOL',category:'spor',hint:'Potaya atılan top'},
+{word:'TENİS',category:'spor',hint:'Raketle oynanan spor'},
+{word:'VOLEYBOL',category:'spor',hint:'File üzerinden oynanır'},
+{word:'SATRANÇ',category:'spor',hint:'Strateji oyunu'},
+{word:'MÜHENDİS',category:'meslek',hint:'Teknik işlerle ilgilenir'},
+{word:'DOKTOR',category:'meslek',hint:'Hastaları tedavi eder'},
+{word:'POLİS',category:'meslek',hint:'Güvenliği sağlar'},
+{word:'ÖĞRETMEN',category:'meslek',hint:'Ders anlatır'},
+{word:'AVUKAT',category:'meslek',hint:'Hukukla ilgilenir'},
+{word:'KÜTÜPHANE',category:'yer',hint:'Kitapların bulunduğu yer'},
+{word:'OKUL',category:'yer',hint:'Eğitim verilen yer'},
+{word:'ÜNİVERSİTE',category:'yer',hint:'Yüksek öğrenim kurumu'},
+{word:'HASTANE',category:'yer',hint:'Tedavi merkezi'},
+{word:'STADYUM',category:'yer',hint:'Spor karşılaşmaları yapılır'},
+{word:'BULUT',category:'doğa',hint:'Gökyüzünde görünür'},
+{word:'YAĞMUR',category:'doğa',hint:'Gökten su damlaları düşer'},
+{word:'KAR',category:'doğa',hint:'Kışın yağar'},
+{word:'RÜZGAR',category:'doğa',hint:'Havanın hareketi'},
+{word:'GÜNEŞ',category:'uzay',hint:'Dünyayı ısıtan yıldız'},
+{word:'GEZEGEN',category:'uzay',hint:'Yıldız etrafında döner'},
+{word:'ASTRONOMİ',category:'bilim',hint:'Uzayı inceleyen bilim'},
+{word:'FİZİK',category:'bilim',hint:'Doğa yasalarını inceler'},
+{word:'KİMYA',category:'bilim',hint:'Maddeleri inceler'},
+{word:'BİYOLOJİ',category:'bilim',hint:'Canlıları inceler'},
+{word:'MATEMATİK',category:'bilim',hint:'Sayılarla ilgili'},
+{word:'ALGORİTMA',category:'teknoloji',hint:'Adım adım çözüm yolu'},
+{word:'VERİ',category:'teknoloji',hint:'Bilginin ham hali'},
+{word:'SUNUCU',category:'teknoloji',hint:'Web sitelerini barındırır'},
+{word:'İNTERNET',category:'teknoloji',hint:'Dünya çapında ağ'},
+{word:'TARAYICI',category:'teknoloji',hint:'Web sitelerini açar'},
+{word:'HARİTA',category:'genel',hint:'Yerlerin çizimi'},
+{word:'PUSULA',category:'genel',hint:'Yön bulma aracı'},
+{word:'DENİZ',category:'doğa',hint:'Tuzlu su kütlesi'},
+{word:'NEHİR',category:'doğa',hint:'Akan su'},
+{word:'GÖL',category:'doğa',hint:'Karada su birikintisi'},
+{word:'ÇÖL',category:'doğa',hint:'Yağışın az olduğu yer'},
+{word:'ADA',category:'coğrafya',hint:'Sularla çevrili kara'},
+{word:'KITA',category:'coğrafya',hint:'Dünya üzerindeki büyük kara parçası'},
+{word:'KASABA',category:'yer',hint:'Küçük yerleşim yeri'},
+{word:'ŞEHİR',category:'yer',hint:'Büyük yerleşim yeri'},
+{word:'MEYDAN',category:'yer',hint:'Şehrin açık alanı'},
+{word:'SOKAK',category:'yer',hint:'Evlerin bulunduğu yol'},
+{word:'CADDE',category:'yer',hint:'Büyük yol'},
+{word:'ARABA',category:'ulaşım',hint:'Dört tekerli araç'},
+{word:'TREN',category:'ulaşım',hint:'Raylarda gider'},
+{word:'UÇAK',category:'ulaşım',hint:'Gökyüzünde uçar'},
+{word:'GEMİ',category:'ulaşım',hint:'Denizde gider'},
+{word:'OTOBÜS',category:'ulaşım',hint:'Toplu taşıma'},
+{word:'BİSİKLET',category:'ulaşım',hint:'Pedallı araç'},
+{word:'MOTOR',category:'ulaşım',hint:'İki tekerli araç'},
+{word:'FIRÇA',category:'eşya',hint:'Boyamak için kullanılır'},
+{word:'MASA',category:'eşya',hint:'Üzerinde çalışılır'},
+{word:'SANDALYE',category:'eşya',hint:'Oturmak için'},
+{word:'KOLTUK',category:'eşya',hint:'Evde oturulan eşya'},
+{word:'DOLAP',category:'eşya',hint:'Eşyalar saklanır'},
+{word:'ANAHTAR',category:'eşya',hint:'Kapıyı açar'},
+{word:'KAPI',category:'eşya',hint:'Giriş çıkış'},
+{word:'PENCERE',category:'eşya',hint:'Işık girer'},
+{word:'PERDE',category:'eşya',hint:'Pencereyi kapatır'},
+{word:'HALI',category:'eşya',hint:'Yere serilir'},
+{word:'TABLO',category:'sanat',hint:'Duvara asılan resim'},
+{word:'HEYEKEL',category:'sanat',hint:'Taş veya metalden yapılır'},
+{word:'MÜZİK',category:'sanat',hint:'Seslerin uyumu'},
+{word:'ŞARKI',category:'sanat',hint:'Söylenen müzik'},
+{word:'FİLM',category:'sinema',hint:'Beyaz perdede izlenir'},
+{word:'SENARYO',category:'sinema',hint:'Film hikayesi'},
+{word:'YÖNETMEN',category:'sinema',hint:'Filmi yöneten kişi'},
+{word:'OYUNCU',category:'sinema',hint:'Filmde rol alır'},
+{word:'SAHNE',category:'sinema',hint:'Filmin bölümü'},
+{word:'KAMERA',category:'teknoloji',hint:'Görüntü kaydeder'},
+{word:'FOTOĞRAF',category:'genel',hint:'Görüntü kaydı'},
+{word:'OBJEKTİF',category:'fotoğraf',hint:'Kamera parçası'},
+{word:'IŞIK',category:'genel',hint:'Görmemizi sağlar'},
+{word:'GÖLGE',category:'genel',hint:'Işığın olmadığı yer'},
+{word:'RENK',category:'genel',hint:'Kırmızı mavi gibi'},
+{word:'SİYAH',category:'renk',hint:'En koyu renk'},
+{word:'BEYAZ',category:'renk',hint:'En açık renk'},
+{word:'KIRMIZI',category:'renk',hint:'Canlı bir renk'},
+{word:'MAVİ',category:'renk',hint:'Gökyüzü rengi'},
+{word:'YEŞİL',category:'renk',hint:'Doğanın rengi'},
+{word:'SARI',category:'renk',hint:'Güneş rengi'},
+{word:'TURUNCU',category:'renk',hint:'Portakal rengi'},
+{word:'MOR',category:'renk',hint:'Kırmızı ve mavinin karışımı'},
+{word:'GRİ',category:'renk',hint:'Siyah ve beyaz arası'},
+{word:'PROGRAM',category:'teknoloji',hint:'Bilgisayar uygulaması'},
+{word:'KOD',category:'teknoloji',hint:'Yazılım dili'},
+{word:'HTML',category:'teknoloji',hint:'Web sayfası dili'},
+{word:'CSS',category:'teknoloji',hint:'Web tasarım dili'},
+{word:'JAVASCRIPT',category:'teknoloji',hint:'Web programlama dili'},
+{word:'GİTHUB',category:'teknoloji',hint:'Kod paylaşım platformu'},
+{word:'SUNUM',category:'genel',hint:'Bir şeyi anlatma'},
+{word:'PROJE',category:'genel',hint:'Planlı çalışma'},
+{word:'HEDEF',category:'genel',hint:'Ulaşılmak istenen şey'},
+{word:'PLAN',category:'genel',hint:'Önceden hazırlanan düzen'},
+{word:'STRATEJİ',category:'genel',hint:'Uzun vadeli plan'},
+{word:'ZAFER',category:'genel',hint:'Kazanan sonuç'},
+{word:'BAŞARI',category:'genel',hint:'İyi sonuç'},
+{word:'DENEME',category:'genel',hint:'Test etmek'},
+{word:'SORU',category:'genel',hint:'Cevap bekleyen ifade'},
+{word:'CEVAP',category:'genel',hint:'Sorunun karşılığı'},
+{word:'BULMACA',category:'oyun',hint:'Zeka oyunu'},
+{word:'BİLMECE',category:'oyun',hint:'Tahmin oyunu'},
+{word:'TAHMİN',category:'oyun',hint:'Bilmeden söylemek'},
+{word:'KELİME',category:'dil',hint:'Harflerden oluşur'},
+{word:'HARF',category:'dil',hint:'Alfabenin parçası'},
+{word:'ALFABE',category:'dil',hint:'Harflerin sırası'},
+{word:'CÜMLE',category:'dil',hint:'Kelime dizisi'},
+{word:'PARAGRAF',category:'dil',hint:'Birden fazla cümle'},
+{word:'ANLAM',category:'dil',hint:'Kelimenin ifade ettiği şey'},
+{word:'SÖZLÜK',category:'dil',hint:'Kelime kitabı'}
+];
 
     const ALPHABET = ['A','B','C','Ç','D','E','F','G','Ğ','H','I','İ','J','K','L','M','N','O','Ö','P','R','S','Ş','T','U','Ü','V','Y','Z'];
     const MAX_WRONG = 6;
@@ -590,6 +696,64 @@
     const entryScreen = document.getElementById('entryScreen');
     const hintBtn = document.getElementById('hintBtn');
     const musicBtn = document.getElementById('musicBtn');
+
+    const AudioEngine = (() => {
+      let enabled = true;
+      let ctx = null;
+
+      function getCtx() {
+        if (!enabled) return null;
+        if (!ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return null;
+          ctx = new AudioCtx();
+        }
+        if (ctx.state === 'suspended') ctx.resume();
+        return ctx;
+      }
+
+      function tone({ frequency = 440, duration = 0.08, type = 'sine', volume = 0.03, delay = 0 }) {
+        const audio = getCtx();
+        if (!audio) return;
+        const now = audio.currentTime + delay;
+        const osc = audio.createOscillator();
+        const gain = audio.createGain();
+
+        osc.type = type;
+        osc.frequency.setValueAtTime(frequency, now);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(volume, now + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        osc.connect(gain);
+        gain.connect(audio.destination);
+        osc.start(now);
+        osc.stop(now + duration + 0.02);
+      }
+
+      return {
+        click() {
+          tone({ frequency: 540, duration: 0.035, type: 'triangle', volume: 0.02 });
+        },
+        correct() {
+          tone({ frequency: 520, duration: 0.07, type: 'sine', volume: 0.03 });
+          tone({ frequency: 700, duration: 0.09, type: 'sine', volume: 0.025, delay: 0.05 });
+        },
+        wrong() {
+          tone({ frequency: 250, duration: 0.08, type: 'sawtooth', volume: 0.025 });
+          tone({ frequency: 180, duration: 0.12, type: 'triangle', volume: 0.02, delay: 0.03 });
+        },
+        lose() {
+          tone({ frequency: 320, duration: 0.09, type: 'triangle', volume: 0.03 });
+          tone({ frequency: 240, duration: 0.12, type: 'triangle', volume: 0.028, delay: 0.07 });
+          tone({ frequency: 160, duration: 0.18, type: 'sine', volume: 0.025, delay: 0.16 });
+        },
+        toggle(on) {
+          enabled = on;
+        }
+      };
+    })();
 
     const bodyParts = [
       document.getElementById('part-body'),
@@ -694,6 +858,7 @@
       } else {
         losses += 1;
         streak = 0;
+        AudioEngine.lose();
         showMessage(`Tur bitti. Doğru kelime <strong>${currentWord}</strong> idi.`, 'lose');
       }
 
@@ -702,12 +867,15 @@
 
     function handleGuess(letter) {
       if (gameOver || guessed.has(letter)) return;
+      AudioEngine.click();
       guessed.add(letter);
 
       if (currentWord.includes(letter)) {
+        AudioEngine.correct();
         showMessage(`<strong>${letter}</strong> harfi kelimede var.`);
       } else {
         wrong += 1;
+        AudioEngine.wrong();
         revealBody();
         showMessage(`<strong>${letter}</strong> harfi kelimede yok.`, 'lose');
       }
@@ -769,8 +937,10 @@
 
     musicBtn.addEventListener('click', () => {
       effectsOn = !effectsOn;
+      AudioEngine.toggle(effectsOn);
       musicBtn.textContent = `efekt modu: ${effectsOn ? 'açık' : 'kapalı'}`;
-      showMessage(effectsOn ? 'Görsel efektler açıldı.' : 'Görsel efektler kapatıldı.');
+      if (effectsOn) AudioEngine.click();
+      showMessage(effectsOn ? 'Görsel ve ses efektleri açıldı.' : 'Görsel ve ses efektleri kapatıldı.');
     });
 
     document.addEventListener('keydown', (e) => {
@@ -789,4 +959,3 @@
   </script>
 </body>
 </html>
-
