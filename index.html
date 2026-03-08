@@ -3,380 +3,376 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aşkımıza Adam Asmaca</title>
+  <title>Adam Asmaca</title>
   <style>
     :root {
-      --bg1: #050505;
-      --bg2: #120612;
-      --bg3: #2a0a1f;
+      --bg1: #060606;
+      --bg2: #130813;
+      --bg3: #2a0d1f;
+      --panel: rgba(255, 255, 255, 0.08);
+      --panel-strong: rgba(255, 255, 255, 0.12);
+      --border: rgba(255, 255, 255, 0.14);
+      --text: #fff4fa;
+      --muted: #f0cddd;
       --primary: #ff4fa3;
-      --secondary: #ff88c8;
-      --gold: #ffb3da;
-      --glass: rgba(255,255,255,.10);
-      --border: rgba(255,255,255,.14);
-      --text: #fff5fb;
-      --muted: #f3cde2;
-      --success: #ff9fcf;
-      --danger: #ff7b9f;
-      --shadow: 0 20px 60px rgba(0,0,0,.35);
-      --radius: 28px;
+      --primary-dark: #d93583;
+      --soft: #ffb6d9;
+      --danger: #ff7a9f;
+      --success: #ff9fd0;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.32);
+      --radius: 24px;
     }
 
     * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; min-height: 100%; font-family: Inter, Arial, Helvetica, sans-serif; color: var(--text); }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+    }
+
     body {
-      background:
-        radial-gradient(circle at 15% 20%, rgba(122,252,255,.18), transparent 22%),
-        radial-gradient(circle at 85% 15%, rgba(255,79,163,.24), transparent 24%),
-        radial-gradient(circle at 50% 80%, rgba(255,209,102,.18), transparent 22%),
-        linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
       overflow-x: hidden;
     }
 
-    .aurora, .aurora::before, .aurora::after {
-      position: fixed;
-      inset: -20%;
-      pointer-events: none;
-      content: "";
-      z-index: 0;
-      filter: blur(60px);
-      animation: drift 18s ease-in-out infinite alternate;
-      opacity: .5;
-    }
-    .aurora::before {
-      background: radial-gradient(circle, rgba(255,79,163,.20) 0%, transparent 55%);
-      transform: translate(15%, 10%);
-      animation-duration: 25s;
-    }
-    .aurora::after {
-      background: radial-gradient(circle, rgba(122,252,255,.18) 0%, transparent 60%);
-      transform: translate(-10%, -15%);
-      animation-duration: 20s;
-    }
-    .aurora {
-      background: radial-gradient(circle, rgba(255,209,102,.16) 0%, transparent 50%);
-    }
-
-    .sparkles {
+    .background-glow {
       position: fixed;
       inset: 0;
-      overflow: hidden;
       pointer-events: none;
       z-index: 0;
-    }
-    .sparkles span {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: white;
-      box-shadow: 0 0 12px rgba(255,255,255,.9);
-      animation: twinkle linear infinite;
-      opacity: .6;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255, 79, 163, 0.14), transparent 24%),
+        radial-gradient(circle at 85% 15%, rgba(255, 182, 217, 0.12), transparent 24%),
+        radial-gradient(circle at 50% 85%, rgba(255, 79, 163, 0.10), transparent 26%);
     }
 
     .site {
       position: relative;
       z-index: 1;
-      width: min(1280px, calc(100% - 32px));
-      margin: 24px auto 60px;
+      width: min(1120px, calc(100% - 24px));
+      margin: 18px auto 32px;
+    }
+
+    .glass {
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .entry-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(8, 5, 8, 0.82);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: opacity .2s ease, visibility .2s ease;
+    }
+
+    .entry-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .entry-card {
+      width: min(560px, 100%);
+      padding: 28px;
+      text-align: center;
+    }
+
+    .entry-badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    .entry-card h1 {
+      margin: 0 0 12px;
+      font-size: clamp(34px, 6vw, 54px);
+      line-height: 1;
+      color: #ffd9ea;
+    }
+
+    .entry-card p {
+      margin: 0 0 22px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    .entry-actions,
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
     .hero {
       display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 24px;
-      align-items: stretch;
-      margin-bottom: 24px;
-    }
-
-    .glass {
-      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.08));
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border-radius: var(--radius);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .glass::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.1) 20%, transparent 40%);
-      transform: translateX(-100%);
-      animation: shine 10s linear infinite;
-    }
-
-    .hero-card { padding: 34px; }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.12);
-      border: 1px solid rgba(255,255,255,.15);
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
-
-    .hero h1 {
-      margin: 0 0 14px;
-      font-size: clamp(36px, 6vw, 74px);
-      line-height: .95;
-      letter-spacing: -.04em;
-      text-shadow: 0 8px 30px rgba(0,0,0,.28);
-    }
-
-    .gradient-text {
-      background: linear-gradient(90deg, #fff, #ffd166, #ff4fa3, #7afcff, #fff);
-      background-size: 300% 100%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      animation: gradientShift 8s linear infinite;
-    }
-
-    .hero p {
-      margin: 0 0 24px;
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.7;
-      max-width: 780px;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-
-    button {
-      border: 0;
-      cursor: pointer;
-      transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease, background .18s ease;
-      font: inherit;
-    }
-
-    .btn {
-      padding: 14px 18px;
-      border-radius: 16px;
-      color: white;
-      font-weight: 700;
-      letter-spacing: .02em;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #ff4fa3, #b43cff);
-      box-shadow: 0 12px 30px rgba(255,79,163,.35);
-    }
-
-    .btn-secondary {
-      background: linear-gradient(135deg, #ff94cb, #ff4fa3);
-      box-shadow: 0 12px 30px rgba(255,79,163,.28);
-      color: white;
-    }
-
-    .btn-ghost {
-      background: rgba(255,255,255,.12);
-      border: 1px solid rgba(255,255,255,.16);
-    }
-
-    .btn:hover { transform: translateY(-2px) scale(1.01); }
-    .btn:active { transform: translateY(1px) scale(.995); }
-
-    .hero-side {
-      display: grid;
+      grid-template-columns: 1fr 320px;
       gap: 18px;
-      align-content: space-between;
+      margin-bottom: 18px;
+      align-items: stretch;
     }
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
+    .hero-card,
+    .stats-card,
+    .panel {
       padding: 22px;
     }
+
+    .hero-card h2 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 4vw, 40px);
+      color: #ffd9ea;
+    }
+
+    .hero-card p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      height: 100%;
+    }
+
     .stat {
-      padding: 18px;
-      border-radius: 20px;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 18px;
+      padding: 16px;
       text-align: center;
     }
-    .stat h3 {
-      margin: 0;
-      font-size: clamp(26px, 4vw, 34px);
+
+    .stat strong {
+      display: block;
+      font-size: 28px;
+      margin-bottom: 6px;
     }
-    .stat p {
-      margin: 6px 0 0;
+
+    .stat span {
       color: var(--muted);
       font-size: 13px;
     }
-
-    
-
-    .layout {
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 24px;
-    }
-
-    .panel { padding: 26px; }
 
     .panel-title {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 10px;
+      margin-bottom: 16px;
     }
-    .panel-title h2 { margin: 0; font-size: 28px; }
-    .panel-title span { color: var(--muted); font-size: 14px; }
+
+    .panel-title h3 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .panel-title span {
+      color: var(--muted);
+      font-size: 14px;
+    }
 
     .game-grid {
       display: grid;
-      grid-template-columns: .92fr 1.08fr;
-      gap: 20px;
-      align-items: stretch;
+      grid-template-columns: 380px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
     }
 
     .hangman-stage {
-      min-height: 460px;
-      border-radius: 24px;
-      background:
-        radial-gradient(circle at top, rgba(255,255,255,.16), rgba(255,255,255,.05)),
-        rgba(9, 10, 28, .36);
-      border: 1px solid rgba(255,255,255,.12);
+      min-height: 400px;
+      padding: 16px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
       display: grid;
       place-items: center;
-      position: relative;
-      overflow: hidden;
     }
 
-    .hangman-stage::after {
-      content: "";
-      position: absolute;
-      left: -20%; right: -20%; bottom: -35px;
-      height: 100px;
-      background: radial-gradient(circle at center, rgba(255,255,255,.18), transparent 60%);
-      filter: blur(14px);
-      opacity: .55;
+    svg {
+      width: min(100%, 320px);
+      height: auto;
+      display: block;
     }
 
-    svg { width: min(100%, 360px); height: auto; }
+    .body-part {
+      opacity: 0;
+      transition: opacity .18s ease;
+    }
 
-    .rope { stroke-dasharray: 100; stroke-dashoffset: 100; animation: draw .6s ease forwards; }
-    .body-part { opacity: 0; transform-origin: center; transform: scale(.85); animation: pop .45s ease forwards; }
+    .word-card,
+    .letters-card,
+    .meta-card,
+    .message {
+      border-radius: 20px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
 
-    .word-card, .letters-card, .meta-card {
-      border-radius: 24px;
-      background: rgba(255,255,255,.07);
-      border: 1px solid rgba(255,255,255,.12);
-      padding: 18px;
+    .word-card,
+    .letters-card {
+      padding: 16px;
+    }
+
+    .category {
+      text-align: center;
+      color: var(--soft);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
     }
 
     .word-display {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
       justify-content: center;
-      min-height: 82px;
-      margin-bottom: 14px;
+      gap: 10px;
+      min-height: 76px;
+      margin-bottom: 12px;
     }
 
     .letter-slot {
-      width: clamp(40px, 5.2vw, 56px);
-      height: clamp(52px, 6vw, 70px);
-      border-radius: 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
-      border: 1px solid rgba(255,255,255,.12);
+      width: clamp(42px, 5vw, 54px);
+      height: clamp(52px, 6vw, 64px);
+      border-radius: 16px;
       display: grid;
       place-items: center;
-      font-size: clamp(20px, 2.7vw, 30px);
+      font-size: clamp(20px, 2.5vw, 28px);
       font-weight: 800;
       text-transform: uppercase;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.15);
-      animation: rise .45s ease;
-    }
-
-    .category {
-      text-align: center;
-      color: var(--gold);
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      font-size: 13px;
-      margin-bottom: 10px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
     }
 
     .hint {
-      color: var(--muted);
       text-align: center;
+      color: var(--muted);
+      min-height: 42px;
       line-height: 1.6;
-      min-height: 48px;
+      font-size: 14px;
     }
 
     .meta-wrap {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin: 18px 0;
+      gap: 12px;
+      margin: 14px 0;
+    }
+
+    .meta-card {
+      padding: 14px;
+      text-align: center;
     }
 
     .meta-card strong {
       display: block;
-      font-size: 30px;
-      margin-bottom: 6px;
+      font-size: 26px;
+      margin-bottom: 4px;
     }
-    .meta-card span { color: var(--muted); font-size: 13px; }
+
+    .meta-card span {
+      font-size: 12px;
+      color: var(--muted);
+    }
 
     .letters {
       display: grid;
-      grid-template-columns: repeat(7, minmax(0, 1fr));
+      grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 10px;
     }
 
-    .letter-btn {
-      min-height: 52px;
-      border-radius: 16px;
-      font-weight: 800;
-      font-size: 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.07));
+    button {
+      font: inherit;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .btn {
+      padding: 13px 16px;
+      border-radius: 14px;
+      font-weight: 700;
       color: white;
-      border: 1px solid rgba(255,255,255,.13);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
+      transition: transform .15s ease, opacity .15s ease;
     }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      box-shadow: 0 10px 24px rgba(255,79,163,0.24);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #ff8fc5, #ff5fa8);
+      box-shadow: 0 10px 24px rgba(255,79,163,0.22);
+    }
+
+    .btn-ghost {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .letter-btn {
+      min-height: 50px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: white;
+      font-size: 17px;
+      font-weight: 800;
+      transition: transform .12s ease, opacity .12s ease, background .12s ease;
+    }
+
     .letter-btn:hover:not(:disabled) {
-      transform: translateY(-2px);
-      background: linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,.10));
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.12);
     }
+
     .letter-btn:disabled {
-      opacity: .55;
+      opacity: 0.58;
       cursor: not-allowed;
     }
+
     .letter-btn.correct {
-      background: linear-gradient(135deg, rgba(140,255,152,.55), rgba(69,199,99,.45));
-      color: #08160d;
+      background: rgba(255, 159, 208, 0.32);
+      color: white;
     }
+
     .letter-btn.wrong {
-      background: linear-gradient(135deg, rgba(255,123,123,.62), rgba(221,69,69,.42));
+      background: rgba(255, 122, 159, 0.30);
+      color: white;
     }
 
     .message {
-      margin-top: 16px;
-      padding: 16px 18px;
-      border-radius: 18px;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
-      min-height: 60px;
+      margin-top: 14px;
+      min-height: 58px;
+      padding: 14px 16px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -388,129 +384,92 @@
     .win { color: var(--success); }
     .lose { color: var(--danger); }
 
-    
-
     .heart {
-      position: absolute;
-      font-size: 18px;
-      animation: floatUp 5s linear forwards;
-      pointer-events: none;
-      opacity: .95;
-      filter: drop-shadow(0 5px 10px rgba(0,0,0,.25));
-    }
-
-    
-
-    .entry-screen {
       position: fixed;
-      inset: 0;
-      z-index: 20;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      background:
-        radial-gradient(circle at top, rgba(255,79,163,.20), transparent 35%),
-        radial-gradient(circle at bottom, rgba(255,135,200,.14), transparent 40%),
-        linear-gradient(135deg, rgba(5,5,5,.88), rgba(18,6,18,.94), rgba(42,10,31,.96));
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition: opacity .4s ease, visibility .4s ease;
-    }
-    .entry-screen.hidden {
-      opacity: 0;
-      visibility: hidden;
+      bottom: 16px;
+      font-size: 18px;
       pointer-events: none;
-    }
-    .entry-card {
-      width: min(720px, 100%);
-      padding: 34px;
-      border-radius: 32px;
-      text-align: center;
-      background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
-      border: 1px solid rgba(255,255,255,.14);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-    }
-    .entry-card h2 {
-      margin: 0 0 14px;
-      font-size: clamp(34px, 6vw, 60px);
-      line-height: .95;
-      letter-spacing: -.04em;
-    }
-    .entry-card p {
-      margin: 0 0 24px;
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.8;
-    }
-    .entry-actions {
-      display: flex;
-      gap: 14px;
-      justify-content: center;
-      flex-wrap: wrap;
+      opacity: .92;
+      animation: floatUp 2.8s linear forwards;
     }
 
-    @media (max-width: 1100px) {
-      .hero, .layout, .game-grid { grid-template-columns: 1fr; }
-      .stats { grid-template-columns: repeat(3, 1fr); }
+    @keyframes floatUp {
+      from { transform: translateY(0) scale(.9); opacity: 1; }
+      to { transform: translateY(-180px) scale(1.15); opacity: 0; }
     }
-      .stats { grid-template-columns: repeat(3, 1fr); }
+
+    @media (max-width: 980px) {
+      .hero,
+      .game-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
 
     @media (max-width: 760px) {
-      .site { width: min(100% - 20px, 1280px); }
-      .hero-card, .panel, .entry-card { padding: 20px; }
-      .stats, .meta-wrap { grid-template-columns: 1fr; }
-      .letters { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-      .panel-title { flex-direction: column; align-items: flex-start; }
-      .hero-actions, .entry-actions { flex-direction: column; }
-      .btn { width: 100%; }
-    }
+      .site {
+        width: min(100% - 16px, 1120px);
+      }
 
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 300% 50%; }
-    }
-    @keyframes drift {
-      from { transform: translate3d(-2%, 1%, 0) scale(1); }
-      to { transform: translate3d(3%, -2%, 0) scale(1.08); }
-    }
-    @keyframes twinkle {
-      from { transform: translateY(100vh) scale(.6); opacity: 0; }
-      10%,90% { opacity: .75; }
-      to { transform: translateY(-10vh) scale(1.1); opacity: 0; }
-    }
-    @keyframes shine {
-      0% { transform: translateX(-120%); }
-      25%,100% { transform: translateX(140%); }
-    }
-    @keyframes draw {
-      to { stroke-dashoffset: 0; }
-    }
-    @keyframes pop {
-      to { opacity: 1; transform: scale(1); }
-    }
-    @keyframes rise {
-      from { transform: translateY(12px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    @keyframes floatUp {
-      from { transform: translateY(0) scale(.8) rotate(0); opacity: 1; }
-      to { transform: translateY(-220px) scale(1.25) rotate(20deg); opacity: 0; }
+      .hero-card,
+      .stats-card,
+      .panel,
+      .entry-card {
+        padding: 18px;
+      }
+
+      .entry-actions,
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .stats-grid,
+      .meta-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .letters {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
+      .panel-title {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hangman-stage {
+        min-height: 320px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="aurora"></div>
-  <div class="sparkles" id="sparkles"></div>
+  <div class="background-glow"></div>
 
   <div class="entry-screen" id="entryScreen">
-    <div class="entry-card">
-      <div class="badge">pembe & siyah özel sürüm</div>
-      <h2><span class="gradient-text">Adam Asmaca</span></h2>
-      <p>Gösterişli, animasyonlu ve tek dosyada çalışan özel adam asmaca oyunu. Yeni tur başladığında sadece ip görünür; her yanlış tahminde adam parça parça oluşur ve son yanlışta tamamen asılmış olur.</p>
+    <div class="entry-card glass">
+      <div class="entry-badge">pembe & siyah sürüm</div>
+      <h1>Adam Asmaca</h1>
+      <p>Yeni tur başladığında sadece ip görünür. Her yanlış tahminde adamın bir parçası gelir, son yanlışta tamamen asılmış olur.</p>
+      <div class="entry-actions">
+        <button class="btn btn-primary" id="enterGameBtn">oyuna başla</button>
+        <button class="btn btn-secondary" id="entryNewGameBtn">rastgele tur hazırla</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="site">
+    <section class="hero">
+      <div class="glass hero-card">
+        <h2>Adam Asmaca</h2>
+        <p>Sade, düzenli ve tek ekranda çalışan sürüm. Yazı animasyonları kaldırıldı, yerleşim temizlendi ve oyun alanı toparlandı.</p>
         <div class="hero-actions">
           <button class="btn btn-primary" id="newGameBtn">yeni oyun başlat</button>
           <button class="btn btn-secondary" id="hintBtn">ipucu aç</button>
@@ -518,77 +477,74 @@
         </div>
       </div>
 
-      <div class="hero-side">
-        <div class="glass stats">
+      <div class="glass stats-card">
+        <div class="stats-grid">
           <div class="stat">
-            <h3 id="wins">0</h3>
-            <p>kazanılan tur</p>
+            <strong id="wins">0</strong>
+            <span>kazanılan tur</span>
           </div>
           <div class="stat">
-            <h3 id="losses">0</h3>
-            <p>kaybedilen tur</p>
+            <strong id="losses">0</strong>
+            <span>kaybedilen tur</span>
           </div>
           <div class="stat">
-            <h3 id="streak">0</h3>
-            <p>seri</p>
+            <strong id="streak">0</strong>
+            <span>seri</span>
           </div>
         </div>
-
-        </div>
+      </div>
     </section>
 
-    <section class="layout">
-      <div class="glass panel">
-        <div class="panel-title">
-          <h2>oyun alanı</h2>
-          <span>yanlış hak: <strong id="remainingLives">6</strong> / 6</span>
+    <section class="glass panel">
+      <div class="panel-title">
+        <h3>oyun alanı</h3>
+        <span>yanlış hak: <strong id="remainingLives">6</strong> / 6</span>
+      </div>
+
+      <div class="game-grid">
+        <div class="hangman-stage">
+          <svg viewBox="0 0 320 360" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="adam asmaca çizimi">
+            <line x1="40" y1="320" x2="240" y2="320" stroke="rgba(255,255,255,.8)" stroke-width="8" stroke-linecap="round" />
+            <line x1="80" y1="320" x2="80" y2="40" stroke="rgba(255,255,255,.85)" stroke-width="8" stroke-linecap="round" />
+            <line x1="80" y1="40" x2="190" y2="40" stroke="rgba(255,255,255,.85)" stroke-width="8" stroke-linecap="round" />
+            <line x1="190" y1="40" x2="190" y2="84" stroke="#ffd3e8" stroke-width="6" stroke-linecap="round" />
+
+            <line id="part-body" class="body-part" x1="190" y1="132" x2="190" y2="212" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+            <line id="part-arm-left" class="body-part" x1="190" y1="150" x2="150" y2="182" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+            <line id="part-arm-right" class="body-part" x1="190" y1="150" x2="230" y2="182" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+            <line id="part-leg-left" class="body-part" x1="190" y1="212" x2="154" y2="270" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+            <line id="part-leg-right" class="body-part" x1="190" y1="212" x2="226" y2="270" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+            <circle id="part-head" class="body-part" cx="190" cy="108" r="24" stroke="#ffffff" stroke-width="6" />
+          </svg>
         </div>
 
-        <div class="game-grid">
-          <div class="hangman-stage">
-            <svg viewBox="0 0 320 360" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="adam asmaca çizimi">
-              <line x1="40" y1="320" x2="240" y2="320" stroke="rgba(255,255,255,.8)" stroke-width="8" stroke-linecap="round" />
-              <line x1="80" y1="320" x2="80" y2="40" stroke="rgba(255,255,255,.85)" stroke-width="8" stroke-linecap="round" />
-              <line x1="80" y1="40" x2="190" y2="40" stroke="rgba(255,255,255,.85)" stroke-width="8" stroke-linecap="round" />
-              <line class="rope" id="rope" x1="190" y1="40" x2="190" y2="84" stroke="#ffd166" stroke-width="6" stroke-linecap="round" />
-
-              <circle id="part-head" class="body-part" cx="190" cy="108" r="24" stroke="#ffffff" stroke-width="6" />
-              <line id="part-body" class="body-part" x1="190" y1="132" x2="190" y2="212" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
-              <line id="part-arm-left" class="body-part" x1="190" y1="150" x2="150" y2="182" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
-              <line id="part-arm-right" class="body-part" x1="190" y1="150" x2="230" y2="182" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
-              <line id="part-leg-left" class="body-part" x1="190" y1="212" x2="154" y2="270" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
-              <line id="part-leg-right" class="body-part" x1="190" y1="212" x2="226" y2="270" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
-            </svg>
+        <div>
+          <div class="word-card">
+            <div class="category" id="category">kategori</div>
+            <div class="word-display" id="wordDisplay"></div>
+            <div class="hint" id="hintText">İpucu için butona basabilirsin.</div>
           </div>
 
-          <div>
-            <div class="word-card">
-              <div class="category" id="category">kategori</div>
-              <div class="word-display" id="wordDisplay"></div>
-              <div class="hint" id="hintText">İpucu için butona basabilirsin.</div>
+          <div class="meta-wrap">
+            <div class="meta-card">
+              <strong id="wrongCount">0</strong>
+              <span>yanlış tahmin</span>
             </div>
-
-            <div class="meta-wrap">
-              <div class="meta-card">
-                <strong id="wrongCount">0</strong>
-                <span>yanlış tahmin</span>
-              </div>
-              <div class="meta-card">
-                <strong id="usedCount">0</strong>
-                <span>kullanılan harf</span>
-              </div>
-              <div class="meta-card">
-                <strong id="roundScore">100</strong>
-                <span>tur puanı</span>
-              </div>
+            <div class="meta-card">
+              <strong id="usedCount">0</strong>
+              <span>kullanılan harf</span>
             </div>
-
-            <div class="letters-card">
-              <div class="letters" id="letters"></div>
+            <div class="meta-card">
+              <strong id="roundScore">100</strong>
+              <span>tur puanı</span>
             </div>
-
-            <div class="message" id="messageBox">Bir harf seç ve kelimeyi bulmaya çalışın.</div>
           </div>
+
+          <div class="letters-card">
+            <div class="letters" id="letters"></div>
+          </div>
+
+          <div class="message" id="messageBox">Bir harf seç ve kelimeyi bulmaya çalışın.</div>
         </div>
       </div>
     </section>
@@ -596,81 +552,21 @@
 
   <script>
     const WORDS = [
-      {
-        word: 'SEVGİ',
-        category: 'duygu',
-        hint: 'Bir ilişkinin en temel ve en güçlü bağı.'
-      },
-      {
-        word: 'MASAL',
-        category: 'romantik tema',
-        hint: 'Birlikte yaşanan güzel şeyler bazen buna benzer gelir.'
-      },
-      {
-        word: 'GÜLÜŞ',
-        category: 'anı',
-        hint: 'Bir insanın yüzünde görüp içinin ısındığı şey.'
-      },
-      {
-        word: 'KALP',
-        category: 'sembol',
-        hint: 'Aşk denince akla ilk gelen şekil.'
-      },
-      {
-        word: 'YILDIZ',
-        category: 'gökyüzü',
-        hint: 'Gece parlayan ve romantik sahneleri güzelleştiren şey.'
-      },
-      {
-        word: 'SONSUZ',
-        category: 'bağlılık',
-        hint: 'Hiç bitmeyecekmiş gibi hissedilen bir şey.'
-      },
-      {
-        word: 'RÜYA',
-        category: 'his',
-        hint: 'Yaşanan çok güzel bir an bazen buna benzetilir.'
-      },
-      {
-        word: 'TUTKU',
-        category: 'duygu',
-        hint: 'Sevginin yoğun ve güçlü hali.'
-      },
-      {
-        word: 'MEHTAP',
-        category: 'gece',
-        hint: 'Ay ışığının geceye vurmuş haline verilen isim.'
-      },
-      {
-        word: 'BİRLİKTE',
-        category: 'ilişki',
-        hint: 'İki insanın aynı tarafta olduğunu anlatan kelime.'
-      },
-      {
-        word: 'UMUT',
-        category: 'his',
-        hint: 'Zor zamanda bile insanı ileri taşıyan duygu.'
-      },
-      {
-        word: 'AŞK',
-        category: 'ana tema',
-        hint: 'Bu oyunun kalbi.'
-      },
-      {
-        word: 'HAYAL',
-        category: 'gelecek',
-        hint: 'Birlikte kurulan güzel planların ortak adı.'
-      },
-      {
-        word: 'MUCİZE',
-        category: 'özel his',
-        hint: 'İnsanın hayatına çok özel biri girince buna benzetilebilir.'
-      },
-      {
-        word: 'SADAKAT',
-        category: 'ilişki',
-        hint: 'Güvenin büyük parçalarından biri.'
-      }
+      { word: 'SEVGİ', category: 'duygu', hint: 'Bir ilişkinin en temel ve en güçlü bağı.' },
+      { word: 'MASAL', category: 'romantik tema', hint: 'Birlikte yaşanan güzel şeyler bazen buna benzer gelir.' },
+      { word: 'GÜLÜŞ', category: 'anı', hint: 'Bir insanın yüzünde görüp içinin ısındığı şey.' },
+      { word: 'KALP', category: 'sembol', hint: 'Aşk denince akla ilk gelen şekil.' },
+      { word: 'YILDIZ', category: 'gökyüzü', hint: 'Gece parlayan ve romantik sahneleri güzelleştiren şey.' },
+      { word: 'SONSUZ', category: 'bağlılık', hint: 'Hiç bitmeyecekmiş gibi hissedilen bir şey.' },
+      { word: 'RÜYA', category: 'his', hint: 'Yaşanan çok güzel bir an bazen buna benzetilir.' },
+      { word: 'TUTKU', category: 'duygu', hint: 'Sevginin yoğun ve güçlü hali.' },
+      { word: 'MEHTAP', category: 'gece', hint: 'Ay ışığının geceye vurmuş haline verilen isim.' },
+      { word: 'BİRLİKTE', category: 'ilişki', hint: 'İki insanın aynı tarafta olduğunu anlatan kelime.' },
+      { word: 'UMUT', category: 'his', hint: 'Zor zamanda bile insanı ileri taşıyan duygu.' },
+      { word: 'AŞK', category: 'ana tema', hint: 'Bu oyunun kalbi.' },
+      { word: 'HAYAL', category: 'gelecek', hint: 'Birlikte kurulan güzel planların ortak adı.' },
+      { word: 'MUCİZE', category: 'özel his', hint: 'İnsanın hayatına çok özel biri girince buna benzetilebilir.' },
+      { word: 'SADAKAT', category: 'ilişki', hint: 'Güvenin büyük parçalarından biri.' }
     ];
 
     const ALPHABET = ['A','B','C','Ç','D','E','F','G','Ğ','H','I','İ','J','K','L','M','N','O','Ö','P','R','S','Ş','T','U','Ü','V','Y','Z'];
@@ -705,7 +601,6 @@
     ];
 
     let currentWord = '';
-    let startedFromEntry = false;
     let currentHint = '';
     let currentCategory = '';
     let guessed = new Set();
@@ -715,24 +610,10 @@
     let streak = 0;
     let gameOver = false;
     let effectsOn = true;
+    let startedFromEntry = false;
 
     function randomWord() {
       return WORDS[Math.floor(Math.random() * WORDS.length)];
-    }
-
-    function setupSparkles() {
-      const wrap = document.getElementById('sparkles');
-      for (let i = 0; i < 38; i++) {
-        const s = document.createElement('span');
-        s.style.left = Math.random() * 100 + '%';
-        s.style.animationDuration = (8 + Math.random() * 12) + 's';
-        s.style.animationDelay = (Math.random() * -20) + 's';
-        s.style.opacity = 0.2 + Math.random() * 0.75;
-        const size = 2 + Math.random() * 4;
-        s.style.width = size + 'px';
-        s.style.height = size + 'px';
-        wrap.appendChild(s);
-      }
     }
 
     function renderWord() {
@@ -741,7 +622,6 @@
         const slot = document.createElement('div');
         slot.className = 'letter-slot';
         slot.textContent = guessed.has(char) ? char : '•';
-        if (char === ' ') slot.textContent = '';
         wordDisplay.appendChild(slot);
       });
     }
@@ -758,7 +638,7 @@
           btn.classList.add(currentWord.includes(letter) ? 'correct' : 'wrong');
         }
 
-        btn.addEventListener('click', () => handleGuess(letter, btn));
+        btn.addEventListener('click', () => handleGuess(letter));
         lettersEl.appendChild(btn);
       });
     }
@@ -776,31 +656,23 @@
     function revealBody() {
       bodyParts.forEach((part, index) => {
         part.style.opacity = index < wrong ? '1' : '0';
-        part.style.transform = index < wrong ? 'scale(1)' : 'scale(.85)';
-        if (index === wrong - 1) {
-          part.style.animation = 'none';
-          void part.offsetWidth;
-          part.style.animation = 'pop .45s ease forwards';
-        }
       });
     }
 
     function checkWin() {
-      return [...new Set(currentWord.replace(/\s/g, '').split(''))].every(letter => guessed.has(letter));
+      return [...new Set(currentWord.split(''))].every(letter => guessed.has(letter));
     }
 
-    function createHearts(count = 10) {
+    function createHearts(count = 6) {
       if (!effectsOn) return;
-      const icons = ['💖', '💕', '✨', '💘', '💗'];
+      const icons = ['💖', '💕', '✨'];
       for (let i = 0; i < count; i++) {
         const heart = document.createElement('div');
         heart.className = 'heart';
         heart.textContent = icons[Math.floor(Math.random() * icons.length)];
-        heart.style.left = (10 + Math.random() * 80) + '%';
-        heart.style.bottom = (30 + Math.random() * 30) + 'px';
-        heart.style.animationDuration = (3 + Math.random() * 2) + 's';
+        heart.style.left = (15 + Math.random() * 70) + '%';
         document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 5200);
+        setTimeout(() => heart.remove(), 2800);
       }
     }
 
@@ -815,15 +687,16 @@
       renderLetters();
 
       if (won) {
-        wins++;
-        streak++;
-        showMessage(`Tebrikler! Kelimeyi buldunuz: <strong>${currentWord}</strong> 🎉`, 'win');
-        createHearts(14);
+        wins += 1;
+        streak += 1;
+        showMessage(`Tebrikler! Kelimeyi buldunuz: <strong>${currentWord}</strong>`, 'win');
+        createHearts(10);
       } else {
-        losses++;
+        losses += 1;
         streak = 0;
-        showMessage(`Tur bitti. Doğru kelime <strong>${currentWord}</strong> idi. Yeni tur deneyin.`, 'lose');
+        showMessage(`Tur bitti. Doğru kelime <strong>${currentWord}</strong> idi.`, 'lose');
       }
+
       updateStats();
     }
 
@@ -832,12 +705,11 @@
       guessed.add(letter);
 
       if (currentWord.includes(letter)) {
-        showMessage(`Güzel seçim! <strong>${letter}</strong> harfi kelimede var. 💫`);
-        if (effectsOn) createHearts(3);
+        showMessage(`<strong>${letter}</strong> harfi kelimede var.`);
       } else {
-        wrong++;
+        wrong += 1;
         revealBody();
-        showMessage(`Bu kez olmadı. <strong>${letter}</strong> harfi kelimede yok.`, 'lose');
+        showMessage(`<strong>${letter}</strong> harfi kelimede yok.`, 'lose');
       }
 
       renderWord();
@@ -864,55 +736,55 @@
       hintText.textContent = 'İpucu için butona basabilirsin.';
       bodyParts.forEach(part => {
         part.style.opacity = '0';
-        part.style.transform = 'scale(.85)';
       });
 
       renderWord();
       renderLetters();
       updateStats();
-      showMessage('Yeni tur başladı. İlk yanlışta gövde oluşur, sonra kollar ve bacaklar gelir, son yanlışta kafa eklenir.');
+      showMessage('Yeni tur başladı. İlk yanlışta gövde gelir, son yanlışta kafa eklenir.');
     }
 
     hintBtn.addEventListener('click', () => {
       hintText.textContent = currentHint;
-      showMessage('İpucu açıldı. Artık kelimeyi tahmin etmek daha kolay olabilir. ✨');
+      showMessage('İpucu açıldı.');
     });
 
     newGameBtn.addEventListener('click', () => {
       newGame();
-      createHearts(8);
+      createHearts(5);
     });
 
     enterGameBtn.addEventListener('click', () => {
       startedFromEntry = true;
       entryScreen.classList.add('hidden');
-      createHearts(8);
+      createHearts(5);
     });
 
     entryNewGameBtn.addEventListener('click', () => {
       newGame();
       startedFromEntry = true;
       entryScreen.classList.add('hidden');
-      createHearts(10);
+      createHearts(6);
     });
 
     musicBtn.addEventListener('click', () => {
       effectsOn = !effectsOn;
       musicBtn.textContent = `efekt modu: ${effectsOn ? 'açık' : 'kapalı'}`;
-      showMessage(effectsOn ? 'Görsel efektler yeniden açıldı. 🌟' : 'Görsel efektler kapatıldı.');
+      showMessage(effectsOn ? 'Görsel efektler açıldı.' : 'Görsel efektler kapatıldı.');
     });
 
     document.addEventListener('keydown', (e) => {
       if (!startedFromEntry && (e.key === 'Enter' || e.key === ' ')) {
         startedFromEntry = true;
         entryScreen.classList.add('hidden');
+        return;
       }
+
       const key = e.key.toLocaleUpperCase('tr-TR');
       if (ALPHABET.includes(key)) handleGuess(key);
       if (e.key === 'Enter') newGame();
     });
 
-    setupSparkles();
     newGame();
   </script>
 </body>
