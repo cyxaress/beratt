@@ -455,7 +455,7 @@
 
   <div class="entry-screen" id="entryScreen">
     <div class="entry-card glass">
-      <div class="entry-badge">for the little cat</div>
+      <div class="entry-badge">pembe & siyah sürüm</div>
       <h1>Adam Asmaca</h1>
       <p>Yeni tur başladığında sadece ip görünür. Her yanlış tahminde adamın bir parçası gelir, son yanlışta tamamen asılmış olur.</p>
       <div class="entry-actions">
@@ -469,7 +469,7 @@
     <section class="hero">
       <div class="glass hero-card">
         <h2>Adam Asmaca</h2>
-        <p>made by oremar</p>
+        <p>Sade, düzenli ve tek ekranda çalışan sürüm. Yazı animasyonları kaldırıldı, yerleşim temizlendi ve oyun alanı toparlandı.</p>
         <div class="hero-actions">
           <button class="btn btn-primary" id="newGameBtn">yeni oyun başlat</button>
           <button class="btn btn-secondary" id="hintBtn">ipucu aç</button>
@@ -544,7 +544,7 @@
             <div class="letters" id="letters"></div>
           </div>
 
-          <div class="message" id="messageBox">Bir harf seç ve kelimeyi bulmaya çalış</div>
+          <div class="message" id="messageBox">Bir harf seç ve kelimeyi bulmaya çalışın.</div>
         </div>
       </div>
     </section>
@@ -712,7 +712,7 @@
         return ctx;
       }
 
-      function tone({ frequency = 440, duration = 0.08, type = 'sine', volume = 0.03, delay = 0 }) {
+      function tone({ frequency = 440, duration = 0.08, type = 'sine', volume = 0.03, delay = 0, endFrequency = null }) {
         const audio = getCtx();
         if (!audio) return;
         const now = audio.currentTime + delay;
@@ -721,6 +721,9 @@
 
         osc.type = type;
         osc.frequency.setValueAtTime(frequency, now);
+        if (endFrequency !== null) {
+          osc.frequency.exponentialRampToValueAtTime(endFrequency, now + duration);
+        }
 
         gain.gain.setValueAtTime(0.0001, now);
         gain.gain.linearRampToValueAtTime(volume, now + 0.01);
@@ -729,25 +732,53 @@
         osc.connect(gain);
         gain.connect(audio.destination);
         osc.start(now);
-        osc.stop(now + duration + 0.02);
+        osc.stop(now + duration + 0.03);
+      }
+
+      function noiseBurst({ duration = 0.05, volume = 0.015, delay = 0 }) {
+        const audio = getCtx();
+        if (!audio) return;
+        const now = audio.currentTime + delay;
+        const buffer = audio.createBuffer(1, audio.sampleRate * duration, audio.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < data.length; i++) {
+          data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
+        }
+        const source = audio.createBufferSource();
+        const filter = audio.createBiquadFilter();
+        const gain = audio.createGain();
+        source.buffer = buffer;
+        filter.type = 'bandpass';
+        filter.frequency.value = 1800;
+        gain.gain.setValueAtTime(volume, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        source.connect(filter);
+        filter.connect(gain);
+        gain.connect(audio.destination);
+        source.start(now);
+        source.stop(now + duration + 0.01);
       }
 
       return {
         click() {
-          tone({ frequency: 540, duration: 0.035, type: 'triangle', volume: 0.02 });
+          tone({ frequency: 880, endFrequency: 620, duration: 0.045, type: 'triangle', volume: 0.018 });
+          noiseBurst({ duration: 0.02, volume: 0.004, delay: 0.004 });
         },
         correct() {
-          tone({ frequency: 520, duration: 0.07, type: 'sine', volume: 0.03 });
-          tone({ frequency: 700, duration: 0.09, type: 'sine', volume: 0.025, delay: 0.05 });
+          tone({ frequency: 520, duration: 0.07, type: 'sine', volume: 0.026 });
+          tone({ frequency: 660, duration: 0.08, type: 'triangle', volume: 0.024, delay: 0.05 });
+          tone({ frequency: 880, duration: 0.11, type: 'sine', volume: 0.02, delay: 0.1 });
         },
         wrong() {
-          tone({ frequency: 250, duration: 0.08, type: 'sawtooth', volume: 0.025 });
-          tone({ frequency: 180, duration: 0.12, type: 'triangle', volume: 0.02, delay: 0.03 });
+          tone({ frequency: 320, endFrequency: 220, duration: 0.08, type: 'square', volume: 0.016 });
+          tone({ frequency: 190, endFrequency: 140, duration: 0.12, type: 'sawtooth', volume: 0.015, delay: 0.06 });
+          noiseBurst({ duration: 0.03, volume: 0.006, delay: 0.02 });
         },
         lose() {
-          tone({ frequency: 320, duration: 0.09, type: 'triangle', volume: 0.03 });
-          tone({ frequency: 240, duration: 0.12, type: 'triangle', volume: 0.028, delay: 0.07 });
-          tone({ frequency: 160, duration: 0.18, type: 'sine', volume: 0.025, delay: 0.16 });
+          tone({ frequency: 420, endFrequency: 300, duration: 0.09, type: 'triangle', volume: 0.022 });
+          tone({ frequency: 280, endFrequency: 210, duration: 0.12, type: 'sawtooth', volume: 0.02, delay: 0.08 });
+          tone({ frequency: 190, endFrequency: 120, duration: 0.2, type: 'sine', volume: 0.022, delay: 0.18 });
+          noiseBurst({ duration: 0.05, volume: 0.008, delay: 0.12 });
         },
         toggle(on) {
           enabled = on;
@@ -959,5 +990,3 @@
   </script>
 </body>
 </html>
-
-
